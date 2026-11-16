@@ -1,0 +1,19 @@
+//
+//  EmpikAssignmentTests.swift
+//  EmpikAssignmentTests
+//
+//  Created by Maksymilian Kotlowski on 16/11/2026.
+//
+
+import Testing
+@testable import EmpikAssignment
+
+struct EmpikAssignmentTests {
+
+    @Test func example() async throws {
+        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+        // Swift Testing Documentation
+        // https://developer.apple.com/documentation/testing
+    }
+
+}
