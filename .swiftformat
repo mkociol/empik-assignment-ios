@@ -1,0 +1,34 @@
+--swiftversion 6.0
+--maxwidth 140
+--indent 4
+--self remove
+--header strip
+--importgrouping testable-bottom
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--closingparen balanced
+--stripunusedargs closure-only
+--patternlet hoist
+--ifdef no-indent
+--commas inline
+--trimwhitespace always
+--redundanttype inferred
+
+--enable isEmpty
+--enable sortImports
+--enable blankLinesBetweenImports
+--enable blankLinesAroundMark
+--enable redundantReturn
+--enable redundantNilInit
+--enable redundantParens
+--enable redundantGet
+--enable redundantBreak
+--enable redundantExtensionACL
+--enable wrapEnumCases
+--enable preferKeyPath
+--enable preferForLoop
+
+--disable wrapMultilineStatementBraces
+
+--exclude .build,build,DerivedData,Pods,**/*.xcodeproj,**/*.xcworkspace
