@@ -12,18 +12,18 @@ extension View {
 }
 
 #Preview("Light") {
-    Button("Try Again") {}
+    Button(.retryButtonTitle) {}
         .primaryButtonStyle()
 }
 
 #Preview("Dark") {
-    Button("Try Again") {}
+    Button(.retryButtonTitle) {}
         .primaryButtonStyle()
         .preferredColorScheme(.dark)
 }
 
 #Preview("Large text") {
-    Button("Try Again") {}
+    Button(.retryButtonTitle) {}
         .primaryButtonStyle()
         .dynamicTypeSize(.accessibility3)
 }
