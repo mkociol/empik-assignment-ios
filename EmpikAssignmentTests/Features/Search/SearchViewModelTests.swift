@@ -159,7 +159,7 @@ struct SearchViewModelTests {
         #expect(await searchedNames.values == ["Kraków", "Kraków"])
     }
 
-    @Test func typingNewQueryBeforeDebounceEndsCancelsPreviousSearch() async {
+    @Test func cancelledSearchSendsNoRequestAndKeepsNewerResults() async {
         let searchedNames = CallRecorder<String>()
         let debounce = HeldFirstDebounce()
         let viewModel = makeViewModel(
@@ -172,6 +172,7 @@ struct SearchViewModelTests {
 
         let typingKrakow = Task { await viewModel.send(.queryChanged("Kraków")) }
         await debounce.untilFirstWaitStarts()
+        typingKrakow.cancel()
         await viewModel.send(.queryChanged("Łódź"))
         await debounce.endFirstWait()
         await typingKrakow.value

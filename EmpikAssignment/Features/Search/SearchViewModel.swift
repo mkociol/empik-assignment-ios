@@ -33,7 +33,6 @@ final class SearchViewModel {
     private let debounceDuration: Duration
     private let sleep: @Sendable (Duration) async throws -> Void
     private let logger: Logger
-    @ObservationIgnored private var searchTask: Task<Void, Never>?
 
     init(
         citySearchClient: CitySearchClient,
@@ -56,7 +55,7 @@ final class SearchViewModel {
         case let .queryChanged(text):
             await changeQuery(to: text)
         case .retryTapped:
-            await startSearch(for: query, after: .zero)
+            await search(for: query, after: .zero)
         case let .citySelected(city):
             history.add(city)
             await saveHistory()
@@ -71,7 +70,6 @@ final class SearchViewModel {
 
     private func changeQuery(to text: String) async {
         query = text
-        searchTask?.cancel()
 
         let validationResult = CityNameValidator.validate(text)
         if case let .invalid(error) = validationResult {
@@ -85,18 +83,7 @@ final class SearchViewModel {
         guard validationResult == .valid else {
             return
         }
-        await startSearch(for: text, after: debounceDuration)
-    }
-
-    private func startSearch(for cityName: String, after delay: Duration) async {
-        searchTask?.cancel()
-        let task = Task { await search(for: cityName, after: delay) }
-        searchTask = task
-        await withTaskCancellationHandler {
-            await task.value
-        } onCancel: {
-            task.cancel()
-        }
+        await search(for: text, after: debounceDuration)
     }
 
     private func search(for cityName: String, after delay: Duration) async {
