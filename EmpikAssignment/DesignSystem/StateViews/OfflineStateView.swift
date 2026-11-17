@@ -4,13 +4,12 @@ struct OfflineStateView: View {
     let retry: () -> Void
 
     var body: some View {
-        ContentUnavailableView {
-            Label(.offlineStateTitle, systemImage: "wifi.slash")
-        } description: {
-            Text(.offlineStateDescription)
-        } actions: {
-            Button(.retryButtonTitle, action: retry)
-                .primaryButtonStyle()
+        MessageStateView(
+            title: .offlineStateTitle,
+            systemImage: "wifi.slash",
+            description: Text(.offlineStateDescription)
+        ) {
+            RetryButton(action: retry)
         }
     }
 }

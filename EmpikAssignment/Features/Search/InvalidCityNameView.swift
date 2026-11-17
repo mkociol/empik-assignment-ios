@@ -4,11 +4,11 @@ struct InvalidCityNameView: View {
     let error: CityNameValidationError
 
     var body: some View {
-        ContentUnavailableView {
-            Label(.invalidCityNameTitle, systemImage: "exclamationmark.circle")
-        } description: {
-            Text(error.message)
-        }
+        MessageStateView(
+            title: .invalidCityNameTitle,
+            systemImage: "exclamationmark.circle",
+            description: Text(error.message)
+        )
     }
 }
 

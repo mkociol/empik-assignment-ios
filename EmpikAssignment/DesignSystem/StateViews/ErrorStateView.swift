@@ -5,17 +5,12 @@ struct ErrorStateView: View {
     let retry: () -> Void
 
     var body: some View {
-        ContentUnavailableView {
-            Label(.errorStateTitle, systemImage: "exclamationmark.triangle")
-        } description: {
-            if let reason {
-                Text(verbatim: reason)
-            } else {
-                Text(.errorStateDescription)
-            }
-        } actions: {
-            Button(.retryButtonTitle, action: retry)
-                .primaryButtonStyle()
+        MessageStateView(
+            title: .errorStateTitle,
+            systemImage: "exclamationmark.triangle",
+            description: reason.map { Text(verbatim: $0) } ?? Text(.errorStateDescription)
+        ) {
+            RetryButton(action: retry)
         }
     }
 }

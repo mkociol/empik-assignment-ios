@@ -4,11 +4,11 @@ struct EmptySearchResultView: View {
     let query: String
 
     var body: some View {
-        ContentUnavailableView {
-            Label(.emptySearchResultTitle, systemImage: "magnifyingglass")
-        } description: {
-            Text(.emptySearchResultDescription(query))
-        }
+        MessageStateView(
+            title: .emptySearchResultTitle,
+            systemImage: "magnifyingglass",
+            description: Text(.emptySearchResultDescription(query))
+        )
     }
 }
 

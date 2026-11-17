@@ -2,11 +2,11 @@ import SwiftUI
 
 struct SearchPromptView: View {
     var body: some View {
-        ContentUnavailableView {
-            Label(.searchPromptTitle, systemImage: "magnifyingglass")
-        } description: {
-            Text(.searchPromptDescription)
-        }
+        MessageStateView(
+            title: .searchPromptTitle,
+            systemImage: "magnifyingglass",
+            description: Text(.searchPromptDescription)
+        )
     }
 }
 
