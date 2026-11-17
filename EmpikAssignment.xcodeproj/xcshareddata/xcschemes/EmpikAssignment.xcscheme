@@ -38,15 +38,6 @@
                ReferencedContainer = "container:EmpikAssignment.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DB5D251E30AB2A26006BEB7C"
-               BuildableName = "EmpikAssignmentUITests.xctest"
-               ReferencedContainer = "container:EmpikAssignment.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
