@@ -134,7 +134,7 @@ struct SearchViewModelTests {
 
         await viewModel.send(.queryChanged("Kraków"))
 
-        #expect(viewModel.state == .offline)
+        #expect(viewModel.state == .failed(.offline))
     }
 
     @Test func serverErrorShowsReasonFromAPI() async {
@@ -143,7 +143,7 @@ struct SearchViewModelTests {
 
         await viewModel.send(.queryChanged("Kraków"))
 
-        #expect(viewModel.state == .error(reason: reason))
+        #expect(viewModel.state == .failed(.error(reason: reason)))
     }
 
     @Test func retryRepeatsSearchForCurrentQuery() async {

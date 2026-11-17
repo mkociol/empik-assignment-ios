@@ -9,8 +9,7 @@ final class SearchViewModel {
         case loading
         case results([City])
         case noResults(query: String)
-        case offline
-        case error(reason: String?)
+        case failed(RemoteDataFailure)
     }
 
     enum Action {
@@ -97,18 +96,7 @@ final class SearchViewModel {
             return
         } catch {
             guard !Task.isCancelled else { return }
-            state = state(for: error)
-        }
-    }
-
-    private func state(for error: any Error) -> State {
-        switch error as? RemoteDataError {
-        case .offline:
-            .offline
-        case let .server(reason):
-            .error(reason: reason)
-        case .invalidResponse, nil:
-            .error(reason: nil)
+            state = .failed(RemoteDataFailure(error))
         }
     }
 

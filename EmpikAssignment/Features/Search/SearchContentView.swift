@@ -29,10 +29,8 @@ struct SearchContentView: View {
             SearchResultsList(cities: cities, selectedCity: $selectedCity)
         case let .noResults(query):
             EmptySearchResultView(query: query)
-        case .offline:
-            OfflineStateView(retry: onRetry)
-        case let .error(reason):
-            ErrorStateView(reason: reason, retry: onRetry)
+        case let .failed(failure):
+            RemoteDataFailureView(failure: failure, retry: onRetry)
         }
     }
 }
@@ -78,11 +76,11 @@ private struct SearchContentPreview: View {
 }
 
 #Preview("Offline") {
-    SearchContentPreview(state: .offline)
+    SearchContentPreview(state: .failed(.offline))
 }
 
 #Preview("Error from API") {
-    SearchContentPreview(state: .error(reason: "Parameter count must be between 1 and 100."))
+    SearchContentPreview(state: .failed(.error(reason: "Parameter count must be between 1 and 100.")))
 }
 
 #Preview("Polish, dark") {
