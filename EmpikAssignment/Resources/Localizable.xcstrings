@@ -1,223 +1,423 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "Hello, world!": {},
-    "cityNameValidation.consecutiveSpacesOrHyphens": {
-      "comment": "Shown when the typed city name has two spaces or hyphens next to each other.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Use only one space or hyphen between words."
+  "sourceLanguage" : "en",
+  "strings" : {
+    "cityNameValidation.consecutiveSpacesOrHyphens" : {
+      "comment" : "Shown when the typed city name has two spaces or hyphens next to each other.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use only one space or hyphen between words."
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Między słowami może być tylko jedna spacja lub myślnik."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Między słowami może być tylko jedna spacja lub myślnik."
           }
         }
       }
     },
-    "cityNameValidation.containsDigits": {
-      "comment": "Shown under the search field when the typed city name contains digits.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A city name can't contain digits."
+    "cityNameValidation.containsDigits" : {
+      "comment" : "Shown under the search field when the typed city name contains digits.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A city name can't contain digits."
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nazwa miasta nie może zawierać cyfr."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nazwa miasta nie może zawierać cyfr."
           }
         }
       }
     },
-    "cityNameValidation.containsSpecialCharacters": {
-      "comment": "Shown when the typed city name contains characters other than letters, spaces and hyphens.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Only letters, spaces and hyphens are allowed."
+    "cityNameValidation.containsSpecialCharacters" : {
+      "comment" : "Shown when the typed city name contains characters other than letters, spaces and hyphens.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only letters, spaces and hyphens are allowed."
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dozwolone są tylko litery, spacje i myślniki."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dozwolone są tylko litery, spacje i myślniki."
           }
         }
       }
     },
-    "cityNameValidation.startsWithSpaceOrHyphen": {
-      "comment": "Shown when the typed city name starts with a space or a hyphen.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A city name can't start with a space or hyphen."
+    "cityNameValidation.startsWithSpaceOrHyphen" : {
+      "comment" : "Shown when the typed city name starts with a space or a hyphen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A city name can't start with a space or hyphen."
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nazwa miasta nie może zaczynać się od spacji ani myślnika."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nazwa miasta nie może zaczynać się od spacji ani myślnika."
           }
         }
       }
     },
-    "emptySearchResult.description": {
-      "comment": "Description of the empty search state. %@ is the city name the user typed.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No cities found for “%@”."
+    "clearHistoryDialog.cancelButton" : {
+      "comment" : "Button in the dialog that keeps the search history.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nie znaleziono miast dla „%@”."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anuluj"
           }
         }
       }
     },
-    "emptySearchResult.title": {
-      "comment": "Title of the state shown when the city search found nothing.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No Results"
+    "clearHistoryDialog.confirmButton" : {
+      "comment" : "Button in the dialog that clears the search history.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear History"
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Brak wyników"
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyczyść historię"
           }
         }
       }
     },
-    "errorState.description": {
-      "comment": "Description shown when loading data failed and the server gave no reason.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "We couldn't load the data. Please try again."
+    "clearHistoryDialog.title" : {
+      "comment" : "Title of the dialog that confirms clearing the search history.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear search history?"
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nie udało się pobrać danych. Spróbuj ponownie."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyczyścić historię wyszukiwania?"
           }
         }
       }
     },
-    "errorState.title": {
-      "comment": "Title of the state shown when loading data failed.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Something Went Wrong"
+    "emptySearchResult.description" : {
+      "comment" : "Description of the empty search state. %@ is the city name the user typed.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No cities found for “%@”."
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Coś poszło nie tak"
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie znaleziono miast dla „%@”."
           }
         }
       }
     },
-    "loadingState.title": {
-      "comment": "Shown while data is loading.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Loading…"
+    "emptySearchResult.title" : {
+      "comment" : "Title of the state shown when the city search found nothing.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Results"
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ładowanie…"
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brak wyników"
           }
         }
       }
     },
-    "offlineState.description": {
-      "comment": "Description of the state shown when the device is offline.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Check your connection and try again."
+    "errorState.description" : {
+      "comment" : "Description shown when loading data failed and the server gave no reason.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't load the data. Please try again."
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sprawdź połączenie i spróbuj ponownie."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się pobrać danych. Spróbuj ponownie."
           }
         }
       }
     },
-    "offlineState.title": {
-      "comment": "Title of the state shown when the device is offline.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No Internet Connection"
+    "errorState.title" : {
+      "comment" : "Title of the state shown when loading data failed.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something Went Wrong"
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Brak połączenia z internetem"
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coś poszło nie tak"
           }
         }
       }
     },
-    "retryButton.title": {
-      "comment": "Button that repeats the failed request.",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Try Again"
+    "Hello, world!" : {
+
+    },
+    "invalidCityName.title" : {
+      "comment" : "Title shown when the typed city name isn't valid; the reason is shown below it.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid City Name"
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spróbuj ponownie"
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieprawidłowa nazwa miasta"
+          }
+        }
+      }
+    },
+    "loadingState.title" : {
+      "comment" : "Shown while data is loading.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading…"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ładowanie…"
+          }
+        }
+      }
+    },
+    "offlineState.description" : {
+      "comment" : "Description of the state shown when the device is offline.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check your connection and try again."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprawdź połączenie i spróbuj ponownie."
+          }
+        }
+      }
+    },
+    "offlineState.title" : {
+      "comment" : "Title of the state shown when the device is offline.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Internet Connection"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brak połączenia z internetem"
+          }
+        }
+      }
+    },
+    "retryButton.title" : {
+      "comment" : "Button that repeats the failed request.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try Again"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spróbuj ponownie"
+          }
+        }
+      }
+    },
+    "search.title" : {
+      "comment" : "Title of the city search screen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weather"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pogoda"
+          }
+        }
+      }
+    },
+    "searchField.prompt" : {
+      "comment" : "Placeholder in the city search field.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for a city"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyszukaj miasto"
+          }
+        }
+      }
+    },
+    "searchHistory.clearButton" : {
+      "comment" : "Button in the search history header that removes all cities from the history.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyczyść"
+          }
+        }
+      }
+    },
+    "searchHistory.deleteButton" : {
+      "comment" : "Swipe action that removes one city from the search history.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń"
+          }
+        }
+      }
+    },
+    "searchHistory.header" : {
+      "comment" : "Header of the list of previously selected cities.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent Searches"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ostatnio wyszukiwane"
+          }
+        }
+      }
+    },
+    "searchPrompt.description" : {
+      "comment" : "Description shown on the search screen before anything was searched.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type a city name to see its forecast."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wpisz nazwę miasta, aby zobaczyć prognozę."
+          }
+        }
+      }
+    },
+    "searchPrompt.title" : {
+      "comment" : "Title shown on the search screen before anything was searched.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find a City"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Znajdź miasto"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }
