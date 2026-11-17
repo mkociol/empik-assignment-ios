@@ -290,6 +290,42 @@
         }
       }
     },
+    "noCitySelected.description": {
+      "comment": "Description shown in the forecast area before a city is selected.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search for a city to see its weather forecast."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wyszukaj miasto, aby zobaczyć prognozę pogody."
+          }
+        }
+      }
+    },
+    "noCitySelected.title": {
+      "comment": "Title shown in the forecast area before a city is selected (iPad and wide windows).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a City"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wybierz miasto"
+          }
+        }
+      }
+    },
     "noData.accessibilityLabel": {
       "comment": "Read by VoiceOver when a value is missing and a dash is shown instead.",
       "extractionState": "manual",
