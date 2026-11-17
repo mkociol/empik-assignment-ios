@@ -1,0 +1,143 @@
+import Observation
+import OSLog
+
+@Observable
+final class SearchViewModel {
+    enum State: Equatable {
+        case history
+        case invalidInput(CityNameValidationError)
+        case loading
+        case results([City])
+        case noResults(query: String)
+        case offline
+        case error(reason: String?)
+    }
+
+    enum Action {
+        case appeared
+        case queryChanged(String)
+        case retryTapped
+        case citySelected(City)
+        case historyCityDeleted(City)
+        case clearHistoryConfirmed
+    }
+
+    private(set) var query = ""
+    private(set) var state: State = .history
+    private(set) var history = SearchHistory()
+
+    private static let minimumQueryLength = 2
+
+    private let citySearchClient: CitySearchClient
+    private let searchHistoryRepository: SearchHistoryRepository
+    private let debounceDuration: Duration
+    private let sleep: @Sendable (Duration) async throws -> Void
+    private let logger: Logger
+    @ObservationIgnored private var searchTask: Task<Void, Never>?
+
+    init(
+        citySearchClient: CitySearchClient,
+        searchHistoryRepository: SearchHistoryRepository,
+        logger: Logger,
+        debounceDuration: Duration = .milliseconds(300),
+        sleep: @escaping @Sendable (Duration) async throws -> Void = { try await Task.sleep(for: $0) }
+    ) {
+        self.citySearchClient = citySearchClient
+        self.searchHistoryRepository = searchHistoryRepository
+        self.logger = logger
+        self.debounceDuration = debounceDuration
+        self.sleep = sleep
+    }
+
+    func send(_ action: Action) async {
+        switch action {
+        case .appeared:
+            await loadHistory()
+        case let .queryChanged(text):
+            await changeQuery(to: text)
+        case .retryTapped:
+            await startSearch(for: query, after: .zero)
+        case let .citySelected(city):
+            history.add(city)
+            await saveHistory()
+        case let .historyCityDeleted(city):
+            history.remove(city)
+            await saveHistory()
+        case .clearHistoryConfirmed:
+            history.removeAll()
+            await saveHistory()
+        }
+    }
+
+    private func changeQuery(to text: String) async {
+        query = text
+        searchTask?.cancel()
+
+        let validationResult = CityNameValidator.validate(text)
+        if case let .invalid(error) = validationResult {
+            state = .invalidInput(error)
+            return
+        }
+        guard text.count >= Self.minimumQueryLength else {
+            state = .history
+            return
+        }
+        guard validationResult == .valid else {
+            return
+        }
+        await startSearch(for: text, after: debounceDuration)
+    }
+
+    private func startSearch(for cityName: String, after delay: Duration) async {
+        searchTask?.cancel()
+        let task = Task { await search(for: cityName, after: delay) }
+        searchTask = task
+        await withTaskCancellationHandler {
+            await task.value
+        } onCancel: {
+            task.cancel()
+        }
+    }
+
+    private func search(for cityName: String, after delay: Duration) async {
+        do {
+            try await sleep(delay)
+            state = .loading
+            let cities = try await citySearchClient.searchCities(cityName)
+            guard !Task.isCancelled else { return }
+            state = cities.isEmpty ? .noResults(query: cityName) : .results(cities)
+        } catch is CancellationError {
+            return
+        } catch {
+            guard !Task.isCancelled else { return }
+            state = state(for: error)
+        }
+    }
+
+    private func state(for error: any Error) -> State {
+        switch error as? RemoteDataError {
+        case .offline:
+            .offline
+        case let .server(reason):
+            .error(reason: reason)
+        case .invalidResponse, nil:
+            .error(reason: nil)
+        }
+    }
+
+    private func loadHistory() async {
+        do {
+            history = try await searchHistoryRepository.load()
+        } catch {
+            logger.error("Loading search history failed: \(String(describing: error), privacy: .public)")
+        }
+    }
+
+    private func saveHistory() async {
+        do {
+            try await searchHistoryRepository.save(history)
+        } catch {
+            logger.error("Saving search history failed: \(String(describing: error), privacy: .public)")
+        }
+    }
+}
