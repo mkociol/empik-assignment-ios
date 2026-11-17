@@ -1,16 +1,13 @@
 import Foundation
+import SwiftData
 
 struct CompositionRoot {
     let citySearchClient: CitySearchClient
     let forecastClient: ForecastClient
+    let searchHistoryRepository: SearchHistoryRepository
 
     static func live(bundle: Bundle = .main) -> CompositionRoot {
-        let configuration: AppConfiguration
-        do {
-            configuration = try AppConfiguration(infoDictionary: bundle.infoDictionary ?? [:])
-        } catch {
-            fatalError("Invalid app configuration: \(error). Check Configuration/*.xcconfig.")
-        }
+        let configuration = loadConfiguration(from: bundle)
         let httpClient = OpenMeteoHTTPClient(
             configuration: OpenMeteoConfiguration(
                 geocodingAPIBaseURL: configuration.geocodingAPIBaseURL,
@@ -26,7 +23,29 @@ struct CompositionRoot {
             forecastClient: .live(
                 httpClient: httpClient,
                 preferredTemperatureUnit: { UnitTemperature(forLocale: .autoupdatingCurrent, usage: .weather) }
-            )
+            ),
+            searchHistoryRepository: makeSearchHistoryRepository()
         )
+    }
+
+    private static func loadConfiguration(from bundle: Bundle) -> AppConfiguration {
+        do {
+            return try AppConfiguration(infoDictionary: bundle.infoDictionary ?? [:])
+        } catch {
+            fatalError("Invalid app configuration: \(error). Check Configuration/*.xcconfig.")
+        }
+    }
+
+    /// Search history is optional, so if the store can't be opened the app keeps working without saving it.
+    private static func makeSearchHistoryRepository() -> SearchHistoryRepository {
+        do {
+            let modelContainer = try ModelContainer(
+                for: SearchHistoryEntry.self,
+                configurations: ModelConfiguration("SearchHistory")
+            )
+            return .swiftData(modelContainer: modelContainer)
+        } catch {
+            return SearchHistoryRepository(load: { SearchHistory() }, save: { _ in })
+        }
     }
 }
