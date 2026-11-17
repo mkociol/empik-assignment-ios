@@ -3,7 +3,7 @@ import Testing
 @testable import EmpikAssignment
 
 struct ForecastRequestTests {
-    private let configuration = AppConfiguration.example
+    private let configuration = OpenMeteoConfiguration.example
     private let krakow = Coordinates(latitude: 50.06143, longitude: 19.93658)
 
     @Test func buildsURL() {

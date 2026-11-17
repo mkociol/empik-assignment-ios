@@ -3,7 +3,7 @@ import Testing
 @testable import EmpikAssignment
 
 struct CitySearchRequestTests {
-    private let configuration = AppConfiguration.example
+    private let configuration = OpenMeteoConfiguration.example
 
     @Test func buildsURLWithEncodedName() {
         let request = CitySearchRequest(cityName: "Bielsko-Biała", language: "pl")

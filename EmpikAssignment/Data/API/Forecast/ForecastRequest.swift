@@ -6,7 +6,7 @@ nonisolated struct ForecastRequest: OpenMeteoRequest {
     let coordinates: Coordinates
     let temperatureUnit: UnitTemperature
 
-    func url(configuration: AppConfiguration) -> URL {
+    func url(configuration: OpenMeteoConfiguration) -> URL {
         configuration.forecastAPIBaseURL
             .appending(path: "forecast")
             .appending(queryItems: [

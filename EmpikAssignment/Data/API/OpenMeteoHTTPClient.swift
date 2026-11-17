@@ -1,7 +1,7 @@
 import Foundation
 
 nonisolated struct OpenMeteoHTTPClient {
-    let configuration: AppConfiguration
+    let configuration: OpenMeteoConfiguration
     let fetchData: @Sendable (URL) async throws -> (Data, URLResponse)
 
     func send<Request: OpenMeteoRequest>(_ request: Request) async throws -> Request.Response {

@@ -6,7 +6,7 @@ nonisolated struct CitySearchRequest: OpenMeteoRequest {
     let cityName: String
     let language: String
 
-    func url(configuration: AppConfiguration) -> URL {
+    func url(configuration: OpenMeteoConfiguration) -> URL {
         configuration.geocodingAPIBaseURL
             .appending(path: "search")
             .appending(queryItems: [

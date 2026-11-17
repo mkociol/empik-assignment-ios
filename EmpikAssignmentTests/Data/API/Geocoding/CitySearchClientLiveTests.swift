@@ -3,7 +3,7 @@ import Testing
 @testable import EmpikAssignment
 
 struct CitySearchClientLiveTests {
-    private let configuration = AppConfiguration.example
+    private let configuration = OpenMeteoConfiguration.example
 
     @Test func searchesInPreferredLanguageAndReturnsCities() async throws {
         let httpClient = OpenMeteoHTTPClient(configuration: configuration, fetchData: { url in

@@ -12,7 +12,10 @@ struct CompositionRoot {
             fatalError("Invalid app configuration: \(error). Check Configuration/*.xcconfig.")
         }
         let httpClient = OpenMeteoHTTPClient(
-            configuration: configuration,
+            configuration: OpenMeteoConfiguration(
+                geocodingAPIBaseURL: configuration.geocodingAPIBaseURL,
+                forecastAPIBaseURL: configuration.forecastAPIBaseURL
+            ),
             fetchData: { url in try await URLSession.shared.data(from: url) }
         )
         return CompositionRoot(
