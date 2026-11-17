@@ -37,13 +37,17 @@
 /* Begin PBXFrameworksBuildPhase section */
 		288AFD3BF1EA19B300A413D5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		A70D90A1F6D9DFB7ABCFF556 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -78,6 +82,8 @@
 				250B4B783BB8B814D853940F /* Resources */,
 			);
 			buildRules = (
+			);
+			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
 				23C4E766761E6B7004600C68 /* EmpikAssignment */,
@@ -146,26 +152,34 @@
 /* Begin PBXResourcesBuildPhase section */
 		250B4B783BB8B814D853940F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9C61090275DD8A084D299A1E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		910811BBB917D0DBCD3C6E17 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EC6A856CC5E5A6EC96E6BA04 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -178,7 +192,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		6CE368FB315D29C25BD379B8 /* Release configuration for PBXNativeTarget "EmpikAssignment" */ = {
+		6CE368FB315D29C25BD379B8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -212,7 +226,7 @@
 			};
 			name = Release;
 		};
-		851B6D30FF688AF4CB713BE4 /* Debug configuration for PBXNativeTarget "EmpikAssignment" */ = {
+		851B6D30FF688AF4CB713BE4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -246,7 +260,7 @@
 			};
 			name = Debug;
 		};
-		96C42672458B9C77E09370B6 /* Debug configuration for PBXNativeTarget "EmpikAssignmentTests" */ = {
+		96C42672458B9C77E09370B6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -271,7 +285,7 @@
 			};
 			name = Debug;
 		};
-		C9A7A66B9E875B6940C43683 /* Release configuration for PBXNativeTarget "EmpikAssignmentTests" */ = {
+		C9A7A66B9E875B6940C43683 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -296,7 +310,7 @@
 			};
 			name = Release;
 		};
-		CCE02E68454DB5FA53AF6229 /* Debug configuration for PBXProject "EmpikAssignment" */ = {
+		CCE02E68454DB5FA53AF6229 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -367,7 +381,7 @@
 			};
 			name = Debug;
 		};
-		D08E3597AD8B4423A400C83C /* Release configuration for PBXProject "EmpikAssignment" */ = {
+		D08E3597AD8B4423A400C83C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -437,25 +451,28 @@
 		2DCE11CBF6D69073ACD1AE95 /* Build configuration list for PBXNativeTarget "EmpikAssignment" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				851B6D30FF688AF4CB713BE4 /* Debug configuration for PBXNativeTarget "EmpikAssignment" */,
-				6CE368FB315D29C25BD379B8 /* Release configuration for PBXNativeTarget "EmpikAssignment" */,
+				851B6D30FF688AF4CB713BE4 /* Debug */,
+				6CE368FB315D29C25BD379B8 /* Release */,
 			);
+			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		35FD56064B41C5ECF6C88271 /* Build configuration list for PBXNativeTarget "EmpikAssignmentTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				96C42672458B9C77E09370B6 /* Debug configuration for PBXNativeTarget "EmpikAssignmentTests" */,
-				C9A7A66B9E875B6940C43683 /* Release configuration for PBXNativeTarget "EmpikAssignmentTests" */,
+				96C42672458B9C77E09370B6 /* Debug */,
+				C9A7A66B9E875B6940C43683 /* Release */,
 			);
+			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		AE3BE9A40B24F6364FBEF910 /* Build configuration list for PBXProject "EmpikAssignment" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CCE02E68454DB5FA53AF6229 /* Debug configuration for PBXProject "EmpikAssignment" */,
-				D08E3597AD8B4423A400C83C /* Release configuration for PBXProject "EmpikAssignment" */,
+				CCE02E68454DB5FA53AF6229 /* Debug */,
+				D08E3597AD8B4423A400C83C /* Release */,
 			);
+			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
