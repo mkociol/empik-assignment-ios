@@ -3,10 +3,7 @@ import Testing
 @testable import EmpikAssignment
 
 struct CitySearchRequestTests {
-    private let configuration = AppConfiguration(
-        geocodingAPIBaseURL: URL(string: "https://geocoding.example.com/v1")!,
-        forecastAPIBaseURL: URL(string: "https://forecast.example.com/v1")!
-    )
+    private let configuration = AppConfiguration.example
 
     @Test func buildsURLWithEncodedName() {
         let request = CitySearchRequest(cityName: "Bielsko-Biała", language: "pl")

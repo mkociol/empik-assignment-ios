@@ -3,10 +3,7 @@ import Testing
 @testable import EmpikAssignment
 
 struct ForecastRequestTests {
-    private let configuration = AppConfiguration(
-        geocodingAPIBaseURL: URL(string: "https://geocoding.example.com/v1")!,
-        forecastAPIBaseURL: URL(string: "https://forecast.example.com/v1")!
-    )
+    private let configuration = AppConfiguration.example
     private let krakow = Coordinates(latitude: 50.06143, longitude: 19.93658)
 
     @Test func buildsURL() {
