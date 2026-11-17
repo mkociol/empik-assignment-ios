@@ -27,6 +27,17 @@ struct CitySearchClientLiveTests {
         ])
     }
 
+    @Test func reportsOfflineAsRemoteDataError() async {
+        let httpClient = OpenMeteoHTTPClient(configuration: configuration, fetchData: { _ in
+            throw URLError(.notConnectedToInternet)
+        })
+        let client = CitySearchClient.live(httpClient: httpClient, preferredLanguage: { "pl" })
+
+        await #expect(throws: RemoteDataError.offline) {
+            try await client.searchCities("Kraków")
+        }
+    }
+
     /// Recorded real response for "Singapore" (language=pl).
     private let singaporeResponse = """
     {"results":[{"id":1880252,"name":"Singapore","latitude":1.28967,"longitude":103.85007,"elevation":23.0,\

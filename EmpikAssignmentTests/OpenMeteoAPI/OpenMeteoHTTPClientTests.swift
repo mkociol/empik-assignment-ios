@@ -19,12 +19,12 @@ struct OpenMeteoHTTPClientTests {
     }
 
     @Test func throwsServerErrorWithReasonFromAPI() async {
-        let request = ForecastRequest(coordinates: Coordinates(latitude: 200, longitude: 0), temperatureUnit: .celsius)
+        let request = ForecastRequest(latitude: 200, longitude: 0, temperatureUnit: .celsius)
         let client = OpenMeteoHTTPClient(configuration: configuration, fetchData: { url in
             (Data(invalidLatitudeResponse.utf8), httpResponse(for: url, statusCode: 400))
         })
 
-        await #expect(throws: RemoteDataError.server(reason: "Latitude must be in range of -90 to 90°. Given: 200.0.")) {
+        await #expect(throws: OpenMeteoAPIError.server(reason: "Latitude must be in range of -90 to 90°. Given: 200.0.")) {
             try await client.send(request)
         }
     }
@@ -33,7 +33,7 @@ struct OpenMeteoHTTPClientTests {
     func throwsOfflineWhenThereIsNoConnection(code: URLError.Code) async {
         let client = OpenMeteoHTTPClient(configuration: configuration, fetchData: { _ in throw URLError(code) })
 
-        await #expect(throws: RemoteDataError.offline) {
+        await #expect(throws: OpenMeteoAPIError.offline) {
             try await client.send(CitySearchRequest(cityName: "Kraków", language: "pl"))
         }
     }

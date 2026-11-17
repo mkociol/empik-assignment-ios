@@ -4,10 +4,9 @@ import Testing
 
 struct ForecastRequestTests {
     private let configuration = OpenMeteoConfiguration.example
-    private let krakow = Coordinates(latitude: 50.06143, longitude: 19.93658)
 
     @Test func buildsURL() {
-        let request = ForecastRequest(coordinates: krakow, temperatureUnit: .celsius)
+        let request = ForecastRequest(latitude: 50.06143, longitude: 19.93658, temperatureUnit: .celsius)
 
         #expect(request.url(configuration: configuration).absoluteString == "https://forecast.example.com/v1/forecast"
             + "?latitude=50.06143&longitude=19.93658"
@@ -17,7 +16,7 @@ struct ForecastRequestTests {
     }
 
     @Test func usesFahrenheitWhenRequested() {
-        let request = ForecastRequest(coordinates: krakow, temperatureUnit: .fahrenheit)
+        let request = ForecastRequest(latitude: 50.06143, longitude: 19.93658, temperatureUnit: .fahrenheit)
 
         #expect(request.url(configuration: configuration).absoluteString.hasSuffix("&temperature_unit=fahrenheit"))
     }

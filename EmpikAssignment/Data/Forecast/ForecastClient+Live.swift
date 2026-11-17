@@ -6,8 +6,17 @@ extension ForecastClient {
         preferredTemperatureUnit: @escaping @Sendable () -> UnitTemperature
     ) -> ForecastClient {
         ForecastClient(fetchForecast: { coordinates in
-            let request = ForecastRequest(coordinates: coordinates, temperatureUnit: preferredTemperatureUnit())
-            let response = try await httpClient.send(request)
+            let request = ForecastRequest(
+                latitude: coordinates.latitude,
+                longitude: coordinates.longitude,
+                temperatureUnit: OpenMeteoTemperatureUnit(preferredTemperatureUnit())
+            )
+            let response: ForecastResponseDTO
+            do {
+                response = try await httpClient.send(request)
+            } catch let apiError as OpenMeteoAPIError {
+                throw RemoteDataError(apiError)
+            }
             do {
                 return try response.toForecast()
             } catch {

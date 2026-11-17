@@ -5,7 +5,11 @@ extension CitySearchClient {
     ) -> CitySearchClient {
         CitySearchClient(searchCities: { cityName in
             let request = CitySearchRequest(cityName: cityName, language: preferredLanguage())
-            return try await httpClient.send(request).toCities()
+            do {
+                return try await httpClient.send(request).toCities()
+            } catch let apiError as OpenMeteoAPIError {
+                throw RemoteDataError(apiError)
+            }
         })
     }
 }

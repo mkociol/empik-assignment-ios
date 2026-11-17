@@ -21,6 +21,17 @@ struct ForecastClientLiveTests {
         #expect(forecast.hourly.count == 2)
     }
 
+    @Test func reportsOfflineAsRemoteDataError() async {
+        let httpClient = OpenMeteoHTTPClient(configuration: configuration, fetchData: { _ in
+            throw URLError(.notConnectedToInternet)
+        })
+        let client = ForecastClient.live(httpClient: httpClient, preferredTemperatureUnit: { .celsius })
+
+        await #expect(throws: RemoteDataError.offline) {
+            try await client.fetchForecast(Coordinates(latitude: 50.06143, longitude: 19.93658))
+        }
+    }
+
     /// Recorded real response for Kraków (forecast_hours=2, temperature_unit=fahrenheit).
     private let krakowFahrenheitResponse = """
     {"latitude":50.064266,"longitude":19.923676,"generationtime_ms":0.09012222290039062,"utc_offset_seconds":3600,\

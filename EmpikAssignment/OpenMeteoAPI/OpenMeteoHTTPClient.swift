@@ -7,7 +7,7 @@ nonisolated struct OpenMeteoHTTPClient {
     func send<Request: OpenMeteoRequest>(_ request: Request) async throws -> Request.Response {
         let (data, response) = try await fetch(request.url(configuration: configuration))
         guard let httpResponse = response as? HTTPURLResponse else {
-            throw RemoteDataError.invalidResponse
+            throw OpenMeteoAPIError.invalidResponse
         }
         guard (200 ..< 300).contains(httpResponse.statusCode) else {
             throw serverError(from: data)
@@ -26,22 +26,22 @@ nonisolated struct OpenMeteoHTTPClient {
     private func error(for urlError: URLError) -> any Error {
         switch urlError.code {
         case .notConnectedToInternet, .networkConnectionLost, .timedOut, .dataNotAllowed:
-            RemoteDataError.offline
+            OpenMeteoAPIError.offline
         case .cancelled:
             CancellationError()
         default:
-            RemoteDataError.invalidResponse
+            OpenMeteoAPIError.invalidResponse
         }
     }
 
-    private func serverError(from data: Data) -> RemoteDataError {
+    private func serverError(from data: Data) -> OpenMeteoAPIError {
         guard let errorDTO = try? JSONDecoder().decode(OpenMeteoErrorDTO.self, from: data) else {
             return .invalidResponse
         }
         return .server(reason: errorDTO.reason)
     }
 
-    private func decode<Value: Decodable>(_ type: Value.Type, from data: Data) throws(RemoteDataError) -> Value {
+    private func decode<Value: Decodable>(_ type: Value.Type, from data: Data) throws(OpenMeteoAPIError) -> Value {
         do {
             return try JSONDecoder().decode(type, from: data)
         } catch {
