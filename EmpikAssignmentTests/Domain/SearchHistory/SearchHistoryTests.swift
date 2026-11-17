@@ -12,7 +12,7 @@ struct SearchHistoryTests {
         id: 3_093_133,
         name: "Łódź",
         region: "Województwo łódzkie",
-        coordinates: Coordinates(latitude: 51.75, longitude: 19.46667)
+        coordinates: Coordinates(latitude: 51.77058, longitude: 19.47395)
     )
     private let nowySacz = City(
         id: 763_534,
