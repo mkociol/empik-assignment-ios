@@ -1,7 +1,7 @@
 import SwiftData
 
 @Model
-final class SearchHistoryEntry {
+final nonisolated class SearchHistoryEntry {
     var cityID: Int
     var name: String
     var region: String?

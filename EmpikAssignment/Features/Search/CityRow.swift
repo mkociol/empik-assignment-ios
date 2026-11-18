@@ -5,9 +5,9 @@ struct CityRow: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(city.name)
+            Text(verbatim: city.name)
             if let region = city.region {
-                Text(region)
+                Text(verbatim: region)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }

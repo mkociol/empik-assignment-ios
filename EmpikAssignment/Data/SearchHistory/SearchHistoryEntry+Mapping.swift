@@ -1,5 +1,5 @@
 extension SearchHistoryEntry {
-    convenience init(city: City, position: Int) {
+    convenience nonisolated init(city: City, position: Int) {
         self.init(
             cityID: city.id,
             name: city.name,
@@ -10,7 +10,7 @@ extension SearchHistoryEntry {
         )
     }
 
-    func toCity() -> City {
+    nonisolated func toCity() -> City {
         City(
             id: cityID,
             name: name,
