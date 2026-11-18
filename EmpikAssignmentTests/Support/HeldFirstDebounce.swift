@@ -1,5 +1,5 @@
-/// Stands in for the debounce wait: holds the first wait until `endFirstWait()`
-/// and, like `Task.sleep`, throws when the waiting task was cancelled.
+/// Stands in for the debounce wait: holds the first wait until `endFirstWait()`,
+/// then throws if the waiting task was cancelled in the meantime.
 actor HeldFirstDebounce {
     private var hasFirstWaitStarted = false
     private var firstWait: CheckedContinuation<Void, Never>?
@@ -18,7 +18,7 @@ actor HeldFirstDebounce {
     }
 
     func untilFirstWaitStarts() async {
-        guard firstWait == nil else { return }
+        guard !hasFirstWaitStarted else { return }
         await withCheckedContinuation { continuation in
             firstWaitStartObserver = continuation
         }
