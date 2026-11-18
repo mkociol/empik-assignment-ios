@@ -21,16 +21,18 @@ struct HourlyForecastRow: View {
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(accessibilityLabel)
         } else {
+            // Modifiers on a GridRow apply to each cell, so the first cell reads the whole row and the others are hidden.
             GridRow {
                 HourText(date: hour.date, timeZone: timeZone, isCurrentHour: isCurrentHour)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .accessibilityLabel(accessibilityLabel)
                 PrecipitationChanceLabel(percent: hour.precipitationProbabilityPercent)
                     .gridColumnAlignment(.leading)
+                    .accessibilityHidden(true)
                 TemperatureText(temperature: hour.temperature)
                     .gridColumnAlignment(.trailing)
+                    .accessibilityHidden(true)
             }
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel(accessibilityLabel)
         }
     }
 
