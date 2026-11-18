@@ -73,6 +73,24 @@
         }
       }
     },
+    "cityRow.location": {
+      "comment": "Second line of a city in the search results and history. %1$@ is the region, %2$@ the country, both from the weather service (e.g. “Województwo małopolskie, Polska”).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@"
+          }
+        }
+      }
+    },
     "clearHistoryDialog.cancelButton": {
       "comment": "Button in the dialog that keeps the search history.",
       "extractionState": "manual",
