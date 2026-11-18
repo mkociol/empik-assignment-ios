@@ -11,6 +11,7 @@ struct HourlyForecastCard: View {
             VStack(alignment: .leading, spacing: Spacing.small) {
                 Text(.hourlyForecastTitle)
                     .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
                 if dynamicTypeSize.isAccessibilitySize {
                     rows(isStacked: true)
                 } else {

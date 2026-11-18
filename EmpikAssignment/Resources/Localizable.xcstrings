@@ -253,6 +253,42 @@
         }
       }
     },
+    "hourlyForecastRow.accessibilityLabel": {
+      "comment": "Read by VoiceOver for one hour of the forecast. %1$@ is the hour (or “Now”), %2$@ the temperature, %3$@ the chance of precipitation in percent.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@, %3$@ chance of precipitation"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@, szansa opadów %3$@"
+          }
+        }
+      }
+    },
+    "hourlyForecastRow.accessibilityLabelWithoutPrecipitation": {
+      "comment": "Read by VoiceOver for one hour of the forecast when the chance of precipitation is missing. %1$@ is the hour (or “Now”), %2$@ the temperature.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@, no precipitation forecast"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@, brak prognozy opadów"
+          }
+        }
+      }
+    },
     "invalidCityName.title": {
       "comment": "Title shown when the typed city name isn't valid; the reason is shown below it.",
       "extractionState": "manual",
@@ -447,6 +483,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "Wyczyść"
+          }
+        }
+      }
+    },
+    "searchHistory.clearButton.accessibilityLabel": {
+      "comment": "Read by VoiceOver for the Clear button in the search history header.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear search history"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wyczyść historię wyszukiwania"
           }
         }
       }

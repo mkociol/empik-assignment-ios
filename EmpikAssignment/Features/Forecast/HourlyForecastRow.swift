@@ -18,7 +18,8 @@ struct HourlyForecastRow: View {
                 }
                 PrecipitationChanceLabel(percent: hour.precipitationProbabilityPercent)
             }
-            .accessibilityElement(children: .combine)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(accessibilityLabel)
         } else {
             GridRow {
                 HourText(date: hour.date, timeZone: timeZone, isCurrentHour: isCurrentHour)
@@ -28,8 +29,19 @@ struct HourlyForecastRow: View {
                 TemperatureText(temperature: hour.temperature)
                     .gridColumnAlignment(.trailing)
             }
-            .accessibilityElement(children: .combine)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(accessibilityLabel)
         }
+    }
+
+    /// One sentence with the temperature before the chance of precipitation, instead of the visual order of the parts.
+    private var accessibilityLabel: Text {
+        let hourDescription = isCurrentHour ? String(localized: .hourlyForecastNow) : hour.date.formatted(.hour(in: timeZone))
+        let temperature = hour.temperature.formatted(.weatherTemperature)
+        guard let percent = hour.precipitationProbabilityPercent else {
+            return Text(.hourlyForecastRowAccessibilityLabelWithoutPrecipitation(hourDescription, temperature))
+        }
+        return Text(.hourlyForecastRowAccessibilityLabel(hourDescription, temperature, percent.formatted(.percent)))
     }
 }
 
@@ -55,7 +67,6 @@ private struct PrecipitationChanceLabel: View {
             PercentageText(percent: percent)
         } icon: {
             Image(systemName: "umbrella")
-                .accessibilityLabel(Text(.weatherConditionsPrecipitationProbability))
         }
         .foregroundStyle(.secondary)
     }

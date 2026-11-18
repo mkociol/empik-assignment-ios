@@ -28,6 +28,7 @@ struct SearchHistorySection: View {
                 Button(.searchHistoryClearButton) {
                     isClearConfirmationPresented = true
                 }
+                .accessibilityLabel(Text(.searchHistoryClearButtonAccessibilityLabel))
             }
         }
         .confirmationDialog(
