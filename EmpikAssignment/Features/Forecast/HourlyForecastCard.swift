@@ -13,17 +13,23 @@ struct HourlyForecastCard: View {
                     .font(.headline)
                     .accessibilityAddTraits(.isHeader)
                 if dynamicTypeSize.isAccessibilitySize {
-                    rows(isStacked: true)
+                    HourlyForecastRows(hours: hours, timeZone: timeZone, isStacked: true)
                 } else {
                     Grid(alignment: .leading, horizontalSpacing: Spacing.medium, verticalSpacing: Spacing.small) {
-                        rows(isStacked: false)
+                        HourlyForecastRows(hours: hours, timeZone: timeZone, isStacked: false)
                     }
                 }
             }
         }
     }
+}
 
-    private func rows(isStacked: Bool) -> some View {
+private struct HourlyForecastRows: View {
+    let hours: [HourlyForecast]
+    let timeZone: TimeZone
+    let isStacked: Bool
+
+    var body: some View {
         ForEach(hours, id: \.date) { hour in
             Divider()
             HourlyForecastRow(
