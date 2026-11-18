@@ -6,7 +6,7 @@ struct EmpikAssignmentApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView(compositionRoot: compositionRoot)
         }
     }
 }

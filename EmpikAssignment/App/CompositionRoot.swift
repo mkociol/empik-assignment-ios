@@ -1,10 +1,24 @@
 import Foundation
+import OSLog
 import SwiftData
 
 struct CompositionRoot {
-    let citySearchClient: CitySearchClient
-    let forecastClient: ForecastClient
-    let searchHistoryRepository: SearchHistoryRepository
+    private let citySearchClient: CitySearchClient
+    private let forecastClient: ForecastClient
+    private let searchHistoryRepository: SearchHistoryRepository
+    private let searchLogger: Logger
+
+    func makeSearchViewModel() -> SearchViewModel {
+        SearchViewModel(
+            citySearchClient: citySearchClient,
+            searchHistoryRepository: searchHistoryRepository,
+            logger: searchLogger
+        )
+    }
+
+    func makeForecastViewModel(for city: City) -> ForecastViewModel {
+        ForecastViewModel(city: city, forecastClient: forecastClient)
+    }
 
     static func live(bundle: Bundle = .main) -> CompositionRoot {
         let configuration = loadConfiguration(from: bundle)
@@ -24,7 +38,8 @@ struct CompositionRoot {
                 httpClient: httpClient,
                 preferredTemperatureUnit: { UnitTemperature(forLocale: .autoupdatingCurrent, usage: .weather) }
             ),
-            searchHistoryRepository: makeSearchHistoryRepository()
+            searchHistoryRepository: makeSearchHistoryRepository(),
+            searchLogger: Logger(subsystem: bundle.bundleIdentifier ?? "EmpikAssignment", category: "Search")
         )
     }
 
@@ -48,4 +63,18 @@ struct CompositionRoot {
             return SearchHistoryRepository(load: { SearchHistory() }, save: { _ in })
         }
     }
+
+    #if DEBUG
+    static func preview() -> CompositionRoot {
+        CompositionRoot(
+            citySearchClient: CitySearchClient(searchCities: { _ in [.previewKrakow, .previewLodz] }),
+            forecastClient: ForecastClient(fetchForecast: { _ in .previewKrakow }),
+            searchHistoryRepository: SearchHistoryRepository(
+                load: { SearchHistory(cities: [.previewSingapore, .previewKrakow]) },
+                save: { _ in }
+            ),
+            searchLogger: Logger(.disabled)
+        )
+    }
+    #endif
 }

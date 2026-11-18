@@ -68,6 +68,8 @@ final class SearchViewModel {
     }
 
     private func changeQuery(to text: String) async {
+        // The search field sends its text again when the list reappears; that must not repeat the search.
+        guard text != query else { return }
         query = text
 
         let validationResult = CityNameValidator.validate(text)

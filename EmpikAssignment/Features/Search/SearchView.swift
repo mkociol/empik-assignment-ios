@@ -1,10 +1,16 @@
 import SwiftUI
 
 struct SearchView: View {
-    let viewModel: SearchViewModel
+    let searchText: String
     @Binding var selectedCity: City?
 
-    @State private var searchText = ""
+    @State private var viewModel: SearchViewModel
+
+    init(viewModel: SearchViewModel, searchText: String, selectedCity: Binding<City?>) {
+        _viewModel = State(initialValue: viewModel)
+        self.searchText = searchText
+        _selectedCity = selectedCity
+    }
 
     var body: some View {
         SearchContentView(
@@ -16,13 +22,14 @@ struct SearchView: View {
             onClearHistory: clearHistory
         )
         .navigationTitle(Text(.searchTitle))
-        .searchable(text: $searchText, prompt: Text(.searchFieldPrompt))
         .task { await viewModel.send(.appeared) }
         .task(id: searchText) { await viewModel.send(.queryChanged(searchText)) }
-        .task(id: selectedCity) {
-            guard let selectedCity else { return }
-            await viewModel.send(.citySelected(selectedCity))
-        }
+        .onChange(of: selectedCity) { _, city in citySelected(city) }
+    }
+
+    private func citySelected(_ city: City?) {
+        guard let city else { return }
+        Task { await viewModel.send(.citySelected(city)) }
     }
 
     private func retry() {
@@ -40,10 +47,12 @@ struct SearchView: View {
 
 #Preview {
     @Previewable @State var selectedCity: City?
+    @Previewable @State var searchText = ""
 
     NavigationSplitView {
-        SearchView(viewModel: .preview(), selectedCity: $selectedCity)
+        SearchView(viewModel: .preview(), searchText: searchText, selectedCity: $selectedCity)
     } detail: {
         Text(verbatim: selectedCity?.name ?? "")
     }
+    .searchable(text: $searchText, prompt: Text(.searchFieldPrompt))
 }

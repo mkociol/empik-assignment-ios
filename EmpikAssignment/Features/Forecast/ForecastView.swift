@@ -1,7 +1,11 @@
 import SwiftUI
 
 struct ForecastView: View {
-    let viewModel: ForecastViewModel
+    @State private var viewModel: ForecastViewModel
+
+    init(viewModel: ForecastViewModel) {
+        _viewModel = State(initialValue: viewModel)
+    }
 
     var body: some View {
         ZStack {

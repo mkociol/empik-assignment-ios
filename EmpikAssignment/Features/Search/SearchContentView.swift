@@ -3,30 +3,49 @@ import SwiftUI
 struct SearchContentView: View {
     let state: SearchViewModel.State
     let history: SearchHistory
-    @Binding var selectedCity: City?
+
     let onRetry: () -> Void
     let onDeleteFromHistory: (City) -> Void
     let onClearHistory: () -> Void
 
+    @Binding var selectedCity: City?
+
+    var body: some View {
+        List(selection: $selectedCity) {
+            switch state {
+            case .history:
+                if !history.cities.isEmpty {
+                    SearchHistorySection(cities: history.cities, onDelete: onDeleteFromHistory, onClearAll: onClearHistory)
+                }
+            case let .results(cities):
+                SearchResultsSection(cities: cities)
+            case .invalidInput, .loading, .noResults, .failed:
+                EmptyView()
+            }
+        }
+        .overlay {
+            SearchStateOverlay(state: state, isHistoryEmpty: history.cities.isEmpty, onRetry: onRetry)
+        }
+    }
+}
+
+private struct SearchStateOverlay: View {
+    let state: SearchViewModel.State
+    let isHistoryEmpty: Bool
+    let onRetry: () -> Void
+
     var body: some View {
         switch state {
         case .history:
-            if history.cities.isEmpty {
+            if isHistoryEmpty {
                 SearchPromptView()
-            } else {
-                SearchHistoryList(
-                    cities: history.cities,
-                    selectedCity: $selectedCity,
-                    onDelete: onDeleteFromHistory,
-                    onClearAll: onClearHistory
-                )
             }
         case let .invalidInput(error):
             InvalidCityNameView(error: error)
         case .loading:
             LoadingStateView()
-        case let .results(cities):
-            SearchResultsList(cities: cities, selectedCity: $selectedCity)
+        case .results:
+            EmptyView()
         case let .noResults(query):
             EmptySearchResultView(query: query)
         case let .failed(failure):

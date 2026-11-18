@@ -106,6 +106,20 @@ struct SearchViewModelTests {
         #expect(await searchedNames.values == ["Nowy"])
     }
 
+    @Test func unchangedQueryKeepsResultsWithoutSearchingAgain() async {
+        let searchedNames = CallRecorder<String>()
+        let viewModel = makeViewModel(searchCities: { name in
+            await searchedNames.record(name)
+            return [krakow]
+        })
+        await viewModel.send(.queryChanged("Kraków"))
+
+        await viewModel.send(.queryChanged("Kraków"))
+
+        #expect(viewModel.state == .results([krakow]))
+        #expect(await searchedNames.values == ["Kraków"])
+    }
+
     // MARK: - Search results
 
     @Test func validQueryShowsFoundCities() async {

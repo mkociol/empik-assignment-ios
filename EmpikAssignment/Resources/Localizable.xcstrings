@@ -1,7 +1,6 @@
 {
   "sourceLanguage": "en",
   "strings": {
-    "Hello, world!": {},
     "cityNameValidation.consecutiveSpacesOrHyphens": {
       "comment": "Shown when the typed city name has two spaces or hyphens next to each other.",
       "extractionState": "manual",
