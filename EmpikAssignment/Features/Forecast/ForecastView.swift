@@ -22,8 +22,16 @@ struct ForecastView: View {
     }
 }
 
-#Preview {
+#Preview("Light") {
     NavigationStack {
         ForecastView(viewModel: .preview())
     }
+}
+
+#Preview("Polish, dark") {
+    NavigationStack {
+        ForecastView(viewModel: .preview())
+    }
+    .environment(\.locale, Locale(identifier: "pl"))
+    .preferredColorScheme(.dark)
 }

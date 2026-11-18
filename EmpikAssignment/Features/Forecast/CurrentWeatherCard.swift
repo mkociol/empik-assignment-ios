@@ -8,6 +8,7 @@ struct CurrentWeatherCard: View {
             VStack(alignment: .leading, spacing: Spacing.small) {
                 Text(.currentWeatherTitle)
                     .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
                 Text(temperature, format: .weatherTemperature)
                     .largeDisplayFont()
             }

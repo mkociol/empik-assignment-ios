@@ -44,6 +44,17 @@ struct RootView: View {
     RootView(compositionRoot: .preview())
 }
 
-#Preview("iPad", traits: .landscapeLeft) {
+#Preview("iPhone, Polish, dark") {
+    RootView(compositionRoot: .preview())
+        .environment(\.locale, Locale(identifier: "pl"))
+        .preferredColorScheme(.dark)
+}
+
+#Preview("iPhone, large text") {
+    RootView(compositionRoot: .preview())
+        .dynamicTypeSize(.accessibility3)
+}
+
+#Preview("Landscape", traits: .landscapeLeft) {
     RootView(compositionRoot: .preview())
 }

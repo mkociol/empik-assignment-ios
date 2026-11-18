@@ -59,20 +59,32 @@ struct SearchView: View {
     }
 }
 
-#Preview {
-    @Previewable @State var selectedCity: City?
-    @Previewable @State var searchText = ""
+private struct SearchViewPreview: View {
+    @State private var selectedCity: City?
+    @State private var searchText = ""
 
-    NavigationSplitView {
-        SearchView(
-            viewModel: .preview(),
-            searchText: searchText,
-            selectedCity: $selectedCity,
-            onHistoryCityDeleted: { _ in },
-            onHistoryCleared: {}
-        )
-    } detail: {
-        Text(verbatim: selectedCity?.name ?? "")
+    var body: some View {
+        NavigationSplitView {
+            SearchView(
+                viewModel: .preview(),
+                searchText: searchText,
+                selectedCity: $selectedCity,
+                onHistoryCityDeleted: { _ in },
+                onHistoryCleared: {}
+            )
+        } detail: {
+            Text(verbatim: selectedCity?.name ?? "")
+        }
+        .searchable(text: $searchText, prompt: Text(.searchFieldPrompt))
     }
-    .searchable(text: $searchText, prompt: Text(.searchFieldPrompt))
+}
+
+#Preview("Light") {
+    SearchViewPreview()
+}
+
+#Preview("Polish, dark") {
+    SearchViewPreview()
+        .environment(\.locale, Locale(identifier: "pl"))
+        .preferredColorScheme(.dark)
 }
