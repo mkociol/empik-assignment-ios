@@ -4,6 +4,8 @@ nonisolated struct OpenMeteoHTTPClient {
     let configuration: OpenMeteoConfiguration
     let fetchData: @Sendable (URL) async throws -> (Data, URLResponse)
 
+    /// Fetching and decoding run off the main actor, whichever actor the caller is on.
+    @concurrent
     func send<Request: OpenMeteoRequest>(_ request: Request) async throws -> Request.Response {
         let (data, response) = try await fetch(request.url(configuration: configuration))
         guard let httpResponse = response as? HTTPURLResponse else {
