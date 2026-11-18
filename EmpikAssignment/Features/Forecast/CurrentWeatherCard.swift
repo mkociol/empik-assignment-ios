@@ -3,15 +3,13 @@ import SwiftUI
 struct CurrentWeatherCard: View {
     let temperature: Measurement<UnitTemperature>
 
-    @ScaledMetric(relativeTo: .largeTitle) private var temperatureFontSize: CGFloat = 72
-
     var body: some View {
         Card {
             VStack(alignment: .leading, spacing: Spacing.small) {
                 Text(.currentWeatherTitle)
                     .font(.headline)
                 Text(temperature, format: .weatherTemperature)
-                    .font(.system(size: temperatureFontSize, weight: .thin, design: .rounded))
+                    .largeDisplayFont()
             }
             .accessibilityElement(children: .combine)
         }
