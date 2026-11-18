@@ -4,6 +4,8 @@ import SwiftData
 import Testing
 @testable import EmpikAssignment
 
+/// SwiftData on iOS 17.0 mixes up stores when several containers of the same model are open at once.
+@Suite(.serialized)
 struct SearchHistoryRepositorySwiftDataTests {
     @Test func loadsEmptyHistoryFromEmptyStore() async throws {
         let repository = try SearchHistoryRepository.swiftData(modelContainer: makeInMemoryModelContainer(), logger: Logger(.disabled))
