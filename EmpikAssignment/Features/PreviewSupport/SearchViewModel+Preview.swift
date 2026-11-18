@@ -1,6 +1,4 @@
 #if DEBUG
-import OSLog
-
 extension SearchViewModel {
     static func preview() -> SearchViewModel {
         SearchViewModel(
@@ -8,8 +6,7 @@ extension SearchViewModel {
             searchHistoryRepository: SearchHistoryRepository(
                 load: { SearchHistory(cities: [.previewSingapore, .previewKrakow]) },
                 save: { _ in }
-            ),
-            logger: Logger(.disabled)
+            )
         )
     }
 }

@@ -1,4 +1,3 @@
-import OSLog
 import Testing
 @testable import EmpikAssignment
 
@@ -206,7 +205,6 @@ struct SearchViewModelTests {
         SearchViewModel(
             citySearchClient: CitySearchClient(searchCities: searchCities),
             searchHistoryRepository: SearchHistoryRepository(load: loadHistory, save: saveHistory),
-            logger: Logger(.disabled),
             sleep: sleep
         )
     }

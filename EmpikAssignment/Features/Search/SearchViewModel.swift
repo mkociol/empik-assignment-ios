@@ -1,5 +1,4 @@
 import Observation
-import OSLog
 
 @Observable
 final class SearchViewModel {
@@ -31,18 +30,15 @@ final class SearchViewModel {
     private let searchHistoryRepository: SearchHistoryRepository
     private let debounceDuration: Duration
     private let sleep: @Sendable (Duration) async throws -> Void
-    private let logger: Logger
 
     init(
         citySearchClient: CitySearchClient,
         searchHistoryRepository: SearchHistoryRepository,
-        logger: Logger,
         debounceDuration: Duration = .milliseconds(300),
         sleep: @escaping @Sendable (Duration) async throws -> Void = { try await Task.sleep(for: $0) }
     ) {
         self.citySearchClient = citySearchClient
         self.searchHistoryRepository = searchHistoryRepository
-        self.logger = logger
         self.debounceDuration = debounceDuration
         self.sleep = sleep
     }
@@ -102,19 +98,14 @@ final class SearchViewModel {
         }
     }
 
+    /// History is optional: the repository logs its failures and the search keeps working without it.
     private func loadHistory() async {
-        do {
-            history = try await searchHistoryRepository.load()
-        } catch {
-            logger.error("Loading search history failed: \(String(describing: error), privacy: .public)")
+        if let storedHistory = try? await searchHistoryRepository.load() {
+            history = storedHistory
         }
     }
 
     private func saveHistory() async {
-        do {
-            try await searchHistoryRepository.save(history)
-        } catch {
-            logger.error("Saving search history failed: \(String(describing: error), privacy: .public)")
-        }
+        try? await searchHistoryRepository.save(history)
     }
 }

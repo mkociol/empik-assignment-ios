@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 import SwiftData
 import Testing
 @testable import EmpikAssignment
@@ -24,7 +25,7 @@ struct SearchHistoryRepositorySwiftDataTests {
     )
 
     @Test func loadsEmptyHistoryFromEmptyStore() async throws {
-        let repository = try SearchHistoryRepository.swiftData(modelContainer: makeInMemoryModelContainer())
+        let repository = try SearchHistoryRepository.swiftData(modelContainer: makeInMemoryModelContainer(), logger: Logger(.disabled))
 
         let history = try await repository.load()
 
@@ -32,7 +33,7 @@ struct SearchHistoryRepositorySwiftDataTests {
     }
 
     @Test func loadsSavedCitiesInSameOrder() async throws {
-        let repository = try SearchHistoryRepository.swiftData(modelContainer: makeInMemoryModelContainer())
+        let repository = try SearchHistoryRepository.swiftData(modelContainer: makeInMemoryModelContainer(), logger: Logger(.disabled))
 
         try await repository.save(SearchHistory(cities: [singapore, krakow, lodz]))
         let history = try await repository.load()
@@ -42,7 +43,7 @@ struct SearchHistoryRepositorySwiftDataTests {
 
     @Test func savingReplacesPreviousHistory() async throws {
         let modelContainer = try makeInMemoryModelContainer()
-        let repository = SearchHistoryRepository.swiftData(modelContainer: modelContainer)
+        let repository = SearchHistoryRepository.swiftData(modelContainer: modelContainer, logger: Logger(.disabled))
 
         try await repository.save(SearchHistory(cities: [krakow, lodz, singapore]))
         try await repository.save(SearchHistory(cities: [lodz]))
@@ -58,7 +59,8 @@ struct SearchHistoryRepositorySwiftDataTests {
 
         try await saveHistory(SearchHistory(cities: [krakow, singapore]), toStoreAt: storeURL)
         let relaunchedRepository = try SearchHistoryRepository.swiftData(
-            modelContainer: ModelContainer(for: SearchHistoryEntry.self, configurations: ModelConfiguration(url: storeURL))
+            modelContainer: ModelContainer(for: SearchHistoryEntry.self, configurations: ModelConfiguration(url: storeURL)),
+            logger: Logger(.disabled)
         )
         let history = try await relaunchedRepository.load()
 
@@ -71,7 +73,7 @@ struct SearchHistoryRepositorySwiftDataTests {
 
     private func saveHistory(_ history: SearchHistory, toStoreAt storeURL: URL) async throws {
         let modelContainer = try ModelContainer(for: SearchHistoryEntry.self, configurations: ModelConfiguration(url: storeURL))
-        try await SearchHistoryRepository.swiftData(modelContainer: modelContainer).save(history)
+        try await SearchHistoryRepository.swiftData(modelContainer: modelContainer, logger: Logger(.disabled)).save(history)
     }
 
     private func removeStoreFiles(at storeURL: URL) {

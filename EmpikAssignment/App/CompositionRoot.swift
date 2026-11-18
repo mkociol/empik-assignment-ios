@@ -6,7 +6,6 @@ struct CompositionRoot {
     private let citySearchClient: CitySearchClient
     private let forecastClient: ForecastClient
     private let searchHistoryRepository: SearchHistoryRepository
-    private let searchLogger: Logger
 
     func makeRootViewModel() -> RootViewModel {
         RootViewModel()
@@ -15,8 +14,7 @@ struct CompositionRoot {
     func makeSearchViewModel() -> SearchViewModel {
         SearchViewModel(
             citySearchClient: citySearchClient,
-            searchHistoryRepository: searchHistoryRepository,
-            logger: searchLogger
+            searchHistoryRepository: searchHistoryRepository
         )
     }
 
@@ -42,8 +40,9 @@ struct CompositionRoot {
                 httpClient: httpClient,
                 preferredTemperatureUnit: { UnitTemperature(forLocale: .autoupdatingCurrent, usage: .weather) }
             ),
-            searchHistoryRepository: makeSearchHistoryRepository(),
-            searchLogger: Logger(subsystem: bundle.bundleIdentifier ?? "EmpikAssignment", category: "Search")
+            searchHistoryRepository: makeSearchHistoryRepository(
+                logger: Logger(subsystem: bundle.bundleIdentifier ?? "EmpikAssignment", category: "SearchHistory")
+            )
         )
     }
 
@@ -56,14 +55,15 @@ struct CompositionRoot {
     }
 
     /// Search history is optional, so if the store can't be opened the app keeps working without saving it.
-    private static func makeSearchHistoryRepository() -> SearchHistoryRepository {
+    private static func makeSearchHistoryRepository(logger: Logger) -> SearchHistoryRepository {
         do {
             let modelContainer = try ModelContainer(
                 for: SearchHistoryEntry.self,
                 configurations: ModelConfiguration("SearchHistory")
             )
-            return .swiftData(modelContainer: modelContainer)
+            return .swiftData(modelContainer: modelContainer, logger: logger)
         } catch {
+            logger.error("Opening the search history store failed: \(String(describing: error), privacy: .public)")
             return SearchHistoryRepository(load: { SearchHistory() }, save: { _ in })
         }
     }
@@ -76,8 +76,7 @@ struct CompositionRoot {
             searchHistoryRepository: SearchHistoryRepository(
                 load: { SearchHistory(cities: [.previewSingapore, .previewKrakow]) },
                 save: { _ in }
-            ),
-            searchLogger: Logger(.disabled)
+            )
         )
     }
     #endif
