@@ -10,7 +10,7 @@ struct ForecastClientLiveTests {
             #expect(url.query()?.contains("temperature_unit=fahrenheit") == true)
             return (
                 Data(krakowFahrenheitResponse.utf8),
-                HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+                HTTPURLResponse.stub(url: url, statusCode: 200)
             )
         })
         let client = ForecastClient.live(httpClient: httpClient, preferredTemperatureUnit: { .fahrenheit })

@@ -9,8 +9,8 @@ struct CitySearchClientLiveTests {
         let httpClient = OpenMeteoHTTPClient(configuration: configuration, fetchData: { url in
             #expect(url.query()?.contains("language=pl") == true)
             return (
-                Data(singaporeResponse.utf8),
-                HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+                Data(RecordedGeocodingResponse.singapore.utf8),
+                HTTPURLResponse.stub(url: url, statusCode: 200)
             )
         })
         let client = CitySearchClient.live(httpClient: httpClient, preferredLanguage: { "pl" })
@@ -37,11 +37,4 @@ struct CitySearchClientLiveTests {
             try await client.searchCities("Kraków")
         }
     }
-
-    /// Recorded real response for "Singapore" (language=pl).
-    private let singaporeResponse = """
-    {"results":[{"id":1880252,"name":"Singapore","latitude":1.28967,"longitude":103.85007,"elevation":23.0,\
-    "feature_code":"PPLC","country_code":"SG","timezone":"Asia/Singapore","population":5638700,\
-    "country_id":1880251,"country":"Singapur"}],"generationtime_ms":0.11539459}
-    """
 }

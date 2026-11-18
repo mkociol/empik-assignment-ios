@@ -3,13 +3,6 @@ import Testing
 @testable import EmpikAssignment
 
 struct ForecastViewModelTests {
-    private let krakow = City(
-        id: 3_094_802,
-        name: "Kraków",
-        region: "Województwo małopolskie",
-        coordinates: Coordinates(latitude: 50.06143, longitude: 19.93658)
-    )
-
     /// Values from a recorded real response for Kraków (forecast_hours=3).
     private let krakowForecast = Forecast(
         current: CurrentWeather(
@@ -47,7 +40,7 @@ struct ForecastViewModelTests {
         await viewModel.send(.appeared)
 
         #expect(viewModel.state == .loaded(krakowForecast))
-        #expect(await requestedCoordinates.values == [krakow.coordinates])
+        #expect(await requestedCoordinates.values == [City.krakow.coordinates])
     }
 
     @Test func missingConnectionShowsOffline() async {
@@ -120,6 +113,6 @@ struct ForecastViewModelTests {
     private func makeViewModel(
         fetchForecast: @escaping @Sendable (Coordinates) async throws -> Forecast
     ) -> ForecastViewModel {
-        ForecastViewModel(city: krakow, forecastClient: ForecastClient(fetchForecast: fetchForecast))
+        ForecastViewModel(city: .krakow, forecastClient: ForecastClient(fetchForecast: fetchForecast))
     }
 }

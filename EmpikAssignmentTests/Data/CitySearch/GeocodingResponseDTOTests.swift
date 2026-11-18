@@ -23,7 +23,7 @@ struct GeocodingResponseDTOTests {
     }
 
     @Test func mapsMissingAdmin1ToNilRegion() throws {
-        let cities = try decodeGeocodingResponse(singaporeResponse).toCities()
+        let cities = try decodeGeocodingResponse(RecordedGeocodingResponse.singapore).toCities()
 
         #expect(cities == [
             City(
@@ -51,12 +51,6 @@ struct GeocodingResponseDTOTests {
     "admin1_id":3337498,"admin2_id":7530994,"admin3_id":7533192,"timezone":"Europe/Warsaw","country_id":798544,\
     "country":"Polska","admin1":"województwo wielkopolskie","admin2":"Powiat poznański","admin3":"Stęszew"}],\
     "generationtime_ms":0.23961067}
-    """
-
-    private let singaporeResponse = """
-    {"results":[{"id":1880252,"name":"Singapore","latitude":1.28967,"longitude":103.85007,"elevation":23.0,\
-    "feature_code":"PPLC","country_code":"SG","timezone":"Asia/Singapore","population":5638700,\
-    "country_id":1880251,"country":"Singapur"}],"generationtime_ms":0.11539459}
     """
 
     private let noResultsResponse = """

@@ -10,7 +10,7 @@ struct OpenMeteoHTTPClientTests {
         let expectedURL = request.url(configuration: configuration)
         let client = OpenMeteoHTTPClient(configuration: configuration, fetchData: { url in
             #expect(url == expectedURL)
-            return (Data(singaporeResponse.utf8), httpResponse(for: url, statusCode: 200))
+            return (Data(RecordedGeocodingResponse.singapore.utf8), HTTPURLResponse.stub(url: url, statusCode: 200))
         })
 
         let response = try await client.send(request)
@@ -21,7 +21,7 @@ struct OpenMeteoHTTPClientTests {
     @Test func throwsServerErrorWithReasonFromAPI() async {
         let request = ForecastRequest(latitude: 200, longitude: 0, temperatureUnit: .celsius)
         let client = OpenMeteoHTTPClient(configuration: configuration, fetchData: { url in
-            (Data(invalidLatitudeResponse.utf8), httpResponse(for: url, statusCode: 400))
+            (Data(invalidLatitudeResponse.utf8), HTTPURLResponse.stub(url: url, statusCode: 400))
         })
 
         await #expect(throws: OpenMeteoAPIError.server(reason: "Latitude must be in range of -90 to 90°. Given: 200.0.")) {
@@ -46,18 +46,8 @@ struct OpenMeteoHTTPClientTests {
         }
     }
 
-    /// Recorded real responses: city search for "Singapore" (HTTP 200) and forecast for latitude 200 (HTTP 400).
-    private let singaporeResponse = """
-    {"results":[{"id":1880252,"name":"Singapore","latitude":1.28967,"longitude":103.85007,"elevation":23.0,\
-    "feature_code":"PPLC","country_code":"SG","timezone":"Asia/Singapore","population":5638700,\
-    "country_id":1880251,"country":"Singapur"}],"generationtime_ms":0.11539459}
-    """
-
+    /// Recorded real response: forecast for latitude 200 (HTTP 400).
     private let invalidLatitudeResponse = """
     {"error":true,"reason":"Latitude must be in range of -90 to 90°. Given: 200.0."}
     """
-}
-
-private nonisolated func httpResponse(for url: URL, statusCode: Int) -> HTTPURLResponse {
-    HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: nil, headerFields: nil)!
 }

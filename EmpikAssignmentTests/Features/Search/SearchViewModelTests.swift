@@ -2,23 +2,10 @@ import Testing
 @testable import EmpikAssignment
 
 struct SearchViewModelTests {
-    private let krakow = City(
-        id: 3_094_802,
-        name: "Kraków",
-        region: "Województwo małopolskie",
-        coordinates: Coordinates(latitude: 50.06143, longitude: 19.93658)
-    )
-    private let lodz = City(
-        id: 3_093_133,
-        name: "Łódź",
-        region: "Województwo łódzkie",
-        coordinates: Coordinates(latitude: 51.77058, longitude: 19.47395)
-    )
-
     // MARK: - History
 
     @Test func appearingLoadsHistory() async {
-        let storedHistory = SearchHistory(cities: [krakow, lodz])
+        let storedHistory = SearchHistory(cities: [.krakow, .lodz])
         let viewModel = makeViewModel(loadHistory: { storedHistory })
 
         await viewModel.send(.appeared)
@@ -29,35 +16,35 @@ struct SearchViewModelTests {
     @Test func selectingCityPutsItFirstInHistoryAndSavesIt() async {
         let savedHistories = CallRecorder<SearchHistory>()
         let viewModel = makeViewModel(
-            loadHistory: { SearchHistory(cities: [lodz]) },
+            loadHistory: { SearchHistory(cities: [.lodz]) },
             saveHistory: { await savedHistories.record($0) }
         )
         await viewModel.send(.appeared)
 
-        await viewModel.send(.citySelected(krakow))
+        await viewModel.send(.citySelected(.krakow))
 
-        #expect(viewModel.history.cities == [krakow, lodz])
-        #expect(await savedHistories.values == [SearchHistory(cities: [krakow, lodz])])
+        #expect(viewModel.history.cities == [.krakow, .lodz])
+        #expect(await savedHistories.values == [SearchHistory(cities: [.krakow, .lodz])])
     }
 
     @Test func deletingCityFromHistorySavesIt() async {
         let savedHistories = CallRecorder<SearchHistory>()
         let viewModel = makeViewModel(
-            loadHistory: { SearchHistory(cities: [krakow, lodz]) },
+            loadHistory: { SearchHistory(cities: [.krakow, .lodz]) },
             saveHistory: { await savedHistories.record($0) }
         )
         await viewModel.send(.appeared)
 
-        await viewModel.send(.historyCityDeleted(krakow))
+        await viewModel.send(.historyCityDeleted(.krakow))
 
-        #expect(viewModel.history.cities == [lodz])
-        #expect(await savedHistories.values == [SearchHistory(cities: [lodz])])
+        #expect(viewModel.history.cities == [.lodz])
+        #expect(await savedHistories.values == [SearchHistory(cities: [.lodz])])
     }
 
     @Test func clearingHistorySavesEmptyHistory() async {
         let savedHistories = CallRecorder<SearchHistory>()
         let viewModel = makeViewModel(
-            loadHistory: { SearchHistory(cities: [krakow, lodz]) },
+            loadHistory: { SearchHistory(cities: [.krakow, .lodz]) },
             saveHistory: { await savedHistories.record($0) }
         )
         await viewModel.send(.appeared)
@@ -95,13 +82,13 @@ struct SearchViewModelTests {
         let searchedNames = CallRecorder<String>()
         let viewModel = makeViewModel(searchCities: { name in
             await searchedNames.record(name)
-            return [krakow]
+            return [.krakow]
         })
         await viewModel.send(.queryChanged("Nowy"))
 
         await viewModel.send(.queryChanged("Nowy "))
 
-        #expect(viewModel.state == .results([krakow]))
+        #expect(viewModel.state == .results([.krakow]))
         #expect(await searchedNames.values == ["Nowy"])
     }
 
@@ -109,13 +96,13 @@ struct SearchViewModelTests {
         let searchedNames = CallRecorder<String>()
         let viewModel = makeViewModel(searchCities: { name in
             await searchedNames.record(name)
-            return [krakow]
+            return [.krakow]
         })
         await viewModel.send(.queryChanged("Kraków"))
 
         await viewModel.send(.queryChanged("Kraków"))
 
-        #expect(viewModel.state == .results([krakow]))
+        #expect(viewModel.state == .results([.krakow]))
         #expect(await searchedNames.values == ["Kraków"])
     }
 
@@ -125,12 +112,12 @@ struct SearchViewModelTests {
         let searchedNames = CallRecorder<String>()
         let viewModel = makeViewModel(searchCities: { name in
             await searchedNames.record(name)
-            return [krakow]
+            return [.krakow]
         })
 
         await viewModel.send(.queryChanged("Kraków"))
 
-        #expect(viewModel.state == .results([krakow]))
+        #expect(viewModel.state == .results([.krakow]))
         #expect(await searchedNames.values == ["Kraków"])
     }
 
@@ -163,7 +150,7 @@ struct SearchViewModelTests {
         let searchedNames = CallRecorder<String>()
         let viewModel = makeViewModel(searchCities: { name in
             await searchedNames.record(name)
-            return [krakow]
+            return [.krakow]
         })
         await viewModel.send(.queryChanged("Kraków"))
 
@@ -178,7 +165,7 @@ struct SearchViewModelTests {
         let viewModel = makeViewModel(
             searchCities: { name in
                 await searchedNames.record(name)
-                return name == "Łódź" ? [lodz] : [krakow]
+                return name == "Łódź" ? [.lodz] : [.krakow]
             },
             sleep: { _ in try await debounce.wait() }
         )
@@ -190,7 +177,7 @@ struct SearchViewModelTests {
         await debounce.endFirstWait()
         await typingKrakow.value
 
-        #expect(viewModel.state == .results([lodz]))
+        #expect(viewModel.state == .results([.lodz]))
         #expect(await searchedNames.values == ["Łódź"])
     }
 
