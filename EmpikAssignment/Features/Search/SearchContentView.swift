@@ -15,7 +15,7 @@ struct SearchContentView: View {
             switch state {
             case .history:
                 if !history.cities.isEmpty {
-                    SearchHistorySection(cities: history.cities, onDelete: onDeleteFromHistory, onClearAll: onClearHistory)
+                    SearchHistorySection(cities: history.cities, onDelete: onDeleteFromHistory)
                 }
             case let .results(cities):
                 SearchResultsSection(cities: cities)
@@ -25,6 +25,13 @@ struct SearchContentView: View {
         }
         .overlay {
             SearchStateOverlay(state: state, isHistoryEmpty: history.cities.isEmpty, onRetry: onRetry)
+        }
+        .toolbar {
+            if state == .history, !history.cities.isEmpty {
+                ToolbarItem(placement: .topBarTrailing) {
+                    ClearHistoryButton(onConfirm: onClearHistory)
+                }
+            }
         }
         .animatesChanges(of: state)
         .animatesChanges(of: history.cities)
@@ -61,14 +68,16 @@ private struct SearchContentPreview: View {
     var history = SearchHistory(cities: [.previewSingapore, .previewKrakow])
 
     var body: some View {
-        SearchContentView(
-            state: state,
-            history: history,
-            onRetry: {},
-            onDeleteFromHistory: { _ in },
-            onClearHistory: {},
-            selectedCity: .constant(nil)
-        )
+        NavigationStack {
+            SearchContentView(
+                state: state,
+                history: history,
+                onRetry: {},
+                onDeleteFromHistory: { _ in },
+                onClearHistory: {},
+                selectedCity: .constant(nil)
+            )
+        }
     }
 }
 

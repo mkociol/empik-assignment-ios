@@ -3,9 +3,6 @@ import SwiftUI
 struct SearchHistorySection: View {
     let cities: [City]
     let onDelete: (City) -> Void
-    let onClearAll: () -> Void
-
-    @State private var isClearConfirmationPresented = false
 
     var body: some View {
         Section {
@@ -22,35 +19,20 @@ struct SearchHistorySection: View {
                 }
             }
         } header: {
-            HStack {
-                Text(.searchHistoryHeader)
-                Spacer()
-                Button(.searchHistoryClearButton) {
-                    isClearConfirmationPresented = true
-                }
-                .accessibilityLabel(Text(.searchHistoryClearButtonAccessibilityLabel))
-            }
-        }
-        .confirmationDialog(
-            Text(.clearHistoryDialogTitle),
-            isPresented: $isClearConfirmationPresented,
-            titleVisibility: .visible
-        ) {
-            Button(.clearHistoryDialogConfirmButton, role: .destructive, action: onClearAll)
-            Button(.clearHistoryDialogCancelButton, role: .cancel) {}
+            Text(.searchHistoryHeader)
         }
     }
 }
 
 #Preview("English") {
     List {
-        SearchHistorySection(cities: [.previewSingapore, .previewKrakow, .previewLodz], onDelete: { _ in }, onClearAll: {})
+        SearchHistorySection(cities: [.previewSingapore, .previewKrakow, .previewLodz], onDelete: { _ in })
     }
 }
 
 #Preview("Polish, dark") {
     List {
-        SearchHistorySection(cities: [.previewSingapore, .previewKrakow, .previewLodz], onDelete: { _ in }, onClearAll: {})
+        SearchHistorySection(cities: [.previewSingapore, .previewKrakow, .previewLodz], onDelete: { _ in })
     }
     .environment(\.locale, Locale(identifier: "pl"))
     .preferredColorScheme(.dark)
@@ -58,7 +40,7 @@ struct SearchHistorySection: View {
 
 #Preview("Large text") {
     List {
-        SearchHistorySection(cities: [.previewKrakow, .previewLlanfairpwll], onDelete: { _ in }, onClearAll: {})
+        SearchHistorySection(cities: [.previewKrakow, .previewLlanfairpwll], onDelete: { _ in })
     }
     .dynamicTypeSize(.accessibility3)
 }
