@@ -8,6 +8,10 @@ struct CompositionRoot {
     private let searchHistoryRepository: SearchHistoryRepository
     private let searchLogger: Logger
 
+    func makeRootViewModel() -> RootViewModel {
+        RootViewModel()
+    }
+
     func makeSearchViewModel() -> SearchViewModel {
         SearchViewModel(
             citySearchClient: citySearchClient,

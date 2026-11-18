@@ -3,18 +3,24 @@ import SwiftUI
 struct RootView: View {
     private let compositionRoot: CompositionRoot
 
-    @State private var selectedCity: City?
-    @State private var searchText = ""
+    @State private var viewModel: RootViewModel
 
     init(compositionRoot: CompositionRoot) {
         self.compositionRoot = compositionRoot
+        _viewModel = State(initialValue: compositionRoot.makeRootViewModel())
     }
 
     var body: some View {
         NavigationSplitView {
-            SearchView(viewModel: compositionRoot.makeSearchViewModel(), searchText: searchText, selectedCity: $selectedCity)
+            SearchView(
+                viewModel: compositionRoot.makeSearchViewModel(),
+                searchText: viewModel.searchText,
+                selectedCity: selectedCityBinding,
+                onHistoryCityDeleted: { viewModel.send(.historyCityDeleted($0)) },
+                onHistoryCleared: { viewModel.send(.historyCleared) }
+            )
         } detail: {
-            if let selectedCity {
+            if let selectedCity = viewModel.selectedCity {
                 ForecastView(viewModel: compositionRoot.makeForecastViewModel(for: selectedCity))
                     .id(selectedCity.id)
             } else {
@@ -22,7 +28,15 @@ struct RootView: View {
             }
         }
         // On the split view, not on the sidebar: the search field belongs to the whole container and survives going back.
-        .searchable(text: $searchText, prompt: Text(.searchFieldPrompt))
+        .searchable(text: searchTextBinding, prompt: Text(.searchFieldPrompt))
+    }
+
+    private var selectedCityBinding: Binding<City?> {
+        Binding(get: { viewModel.selectedCity }, set: { viewModel.send(.selectionChanged($0)) })
+    }
+
+    private var searchTextBinding: Binding<String> {
+        Binding(get: { viewModel.searchText }, set: { viewModel.send(.searchTextChanged($0)) })
     }
 }
 

@@ -2,14 +2,26 @@ import SwiftUI
 
 struct SearchView: View {
     let searchText: String
+    let onHistoryCityDeleted: (City) -> Void
+    let onHistoryCleared: () -> Void
+
     @Binding var selectedCity: City?
 
     @State private var viewModel: SearchViewModel
 
-    init(viewModel: SearchViewModel, searchText: String, selectedCity: Binding<City?>) {
+    init(
+        viewModel: SearchViewModel,
+        searchText: String,
+        selectedCity: Binding<City?>,
+        onHistoryCityDeleted: @escaping (City) -> Void,
+        onHistoryCleared: @escaping () -> Void
+    ) {
         _viewModel = State(initialValue: viewModel)
-        self.searchText = searchText
         _selectedCity = selectedCity
+
+        self.searchText = searchText
+        self.onHistoryCityDeleted = onHistoryCityDeleted
+        self.onHistoryCleared = onHistoryCleared
     }
 
     var body: some View {
@@ -37,10 +49,12 @@ struct SearchView: View {
     }
 
     private func deleteFromHistory(_ city: City) {
+        onHistoryCityDeleted(city)
         Task { await viewModel.send(.historyCityDeleted(city)) }
     }
 
     private func clearHistory() {
+        onHistoryCleared()
         Task { await viewModel.send(.clearHistoryConfirmed) }
     }
 }
@@ -50,7 +64,13 @@ struct SearchView: View {
     @Previewable @State var searchText = ""
 
     NavigationSplitView {
-        SearchView(viewModel: .preview(), searchText: searchText, selectedCity: $selectedCity)
+        SearchView(
+            viewModel: .preview(),
+            searchText: searchText,
+            selectedCity: $selectedCity,
+            onHistoryCityDeleted: { _ in },
+            onHistoryCleared: {}
+        )
     } detail: {
         Text(verbatim: selectedCity?.name ?? "")
     }
