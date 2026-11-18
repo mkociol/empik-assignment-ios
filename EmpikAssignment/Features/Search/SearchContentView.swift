@@ -3,6 +3,7 @@ import SwiftUI
 struct SearchContentView: View {
     let state: SearchViewModel.State
     let history: SearchHistory
+    let canClearHistory: Bool
 
     let onRetry: () -> Void
     let onDeleteFromHistory: (City) -> Void
@@ -27,7 +28,7 @@ struct SearchContentView: View {
             SearchStateOverlay(state: state, isHistoryEmpty: history.cities.isEmpty, onRetry: onRetry)
         }
         .toolbar {
-            if state == .history, !history.cities.isEmpty {
+            if canClearHistory {
                 ToolbarItem(placement: .topBarTrailing) {
                     ClearHistoryButton(onConfirm: onClearHistory)
                 }
@@ -66,12 +67,14 @@ private struct SearchStateOverlay: View {
 private struct SearchContentPreview: View {
     let state: SearchViewModel.State
     var history = SearchHistory(cities: [.previewSingapore, .previewKrakow])
+    var canClearHistory = false
 
     var body: some View {
         NavigationStack {
             SearchContentView(
                 state: state,
                 history: history,
+                canClearHistory: canClearHistory,
                 onRetry: {},
                 onDeleteFromHistory: { _ in },
                 onClearHistory: {},
@@ -82,7 +85,7 @@ private struct SearchContentPreview: View {
 }
 
 #Preview("History") {
-    SearchContentPreview(state: .history)
+    SearchContentPreview(state: .history, canClearHistory: true)
 }
 
 #Preview("No history yet") {

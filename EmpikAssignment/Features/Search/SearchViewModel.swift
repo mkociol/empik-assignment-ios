@@ -20,11 +20,13 @@ final class SearchViewModel {
         case clearHistoryConfirmed
     }
 
-    private(set) var query = ""
+    private var query = ""
     private(set) var state: State = .history
     private(set) var history = SearchHistory()
 
-    private static let minimumQueryLength = 2
+    var canClearHistory: Bool {
+        state == .history && !history.cities.isEmpty
+    }
 
     private let citySearchClient: CitySearchClient
     private let searchHistoryRepository: SearchHistoryRepository
@@ -73,7 +75,7 @@ final class SearchViewModel {
             state = .invalidInput(error)
             return
         }
-        guard text.count >= Self.minimumQueryLength else {
+        guard text.count >= CitySearchClient.minimumCityNameLength else {
             state = .history
             return
         }

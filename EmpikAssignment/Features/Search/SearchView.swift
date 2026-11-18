@@ -28,6 +28,7 @@ struct SearchView: View {
         SearchContentView(
             state: viewModel.state,
             history: viewModel.history,
+            canClearHistory: viewModel.canClearHistory,
             onRetry: retry,
             onDeleteFromHistory: deleteFromHistory,
             onClearHistory: clearHistory,

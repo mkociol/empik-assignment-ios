@@ -55,6 +55,26 @@ struct SearchViewModelTests {
         #expect(await savedHistories.values == [SearchHistory()])
     }
 
+    @Test func historyCanBeClearedOnlyWhenShownAndNotEmpty() async {
+        let viewModel = makeViewModel(
+            searchCities: { _ in [.krakow] },
+            loadHistory: { SearchHistory(cities: [.krakow]) }
+        )
+        await viewModel.send(.appeared)
+        #expect(viewModel.canClearHistory)
+
+        await viewModel.send(.queryChanged("Kraków"))
+        #expect(!viewModel.canClearHistory)
+    }
+
+    @Test func emptyHistoryCannotBeCleared() async {
+        let viewModel = makeViewModel()
+
+        await viewModel.send(.appeared)
+
+        #expect(!viewModel.canClearHistory)
+    }
+
     // MARK: - Query
 
     @Test(arguments: ["", "K"])
