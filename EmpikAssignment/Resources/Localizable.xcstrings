@@ -127,20 +127,20 @@
         }
       }
     },
-    "currentWeather.title": {
-      "comment": "Title of the card with the current temperature.",
+    "currentTemperature.accessibilityLabel": {
+      "comment": "Read by VoiceOver for the large current temperature on the forecast screen. %@ is the temperature, e.g. “18°C”.",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Now"
+            "value": "Current temperature: %@"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Teraz"
+            "value": "Aktualna temperatura: %@"
           }
         }
       }

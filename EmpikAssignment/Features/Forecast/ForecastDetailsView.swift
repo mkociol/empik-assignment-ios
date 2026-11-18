@@ -6,7 +6,7 @@ struct ForecastDetailsView: View {
     var body: some View {
         ScrollView {
             GlassCardGroup {
-                CurrentWeatherCard(temperature: forecast.current.temperature)
+                CurrentTemperatureView(temperature: forecast.current.temperature)
                 WeatherConditionsCard(
                     cloudCoverPercent: forecast.current.cloudCoverPercent,
                     precipitationProbabilityPercent: forecast.current.precipitationProbabilityPercent
