@@ -11,6 +11,7 @@ struct ForecastView: View {
         ZStack {
             SkyGradientBackground()
             ForecastContentView(state: viewModel.state, onRetry: retry)
+                .animatesChanges(of: viewModel.state)
         }
         .navigationTitle(viewModel.city.name)
         .task { await viewModel.send(.appeared) }

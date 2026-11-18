@@ -16,10 +16,10 @@ struct SearchView: View {
         SearchContentView(
             state: viewModel.state,
             history: viewModel.history,
-            selectedCity: $selectedCity,
             onRetry: retry,
             onDeleteFromHistory: deleteFromHistory,
-            onClearHistory: clearHistory
+            onClearHistory: clearHistory,
+            selectedCity: $selectedCity
         )
         .navigationTitle(Text(.searchTitle))
         .task { await viewModel.send(.appeared) }

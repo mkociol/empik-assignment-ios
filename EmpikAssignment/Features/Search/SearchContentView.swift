@@ -26,6 +26,8 @@ struct SearchContentView: View {
         .overlay {
             SearchStateOverlay(state: state, isHistoryEmpty: history.cities.isEmpty, onRetry: onRetry)
         }
+        .animatesChanges(of: state)
+        .animatesChanges(of: history.cities)
     }
 }
 
@@ -62,10 +64,10 @@ private struct SearchContentPreview: View {
         SearchContentView(
             state: state,
             history: history,
-            selectedCity: .constant(nil),
             onRetry: {},
             onDeleteFromHistory: { _ in },
-            onClearHistory: {}
+            onClearHistory: {},
+            selectedCity: .constant(nil)
         )
     }
 }
