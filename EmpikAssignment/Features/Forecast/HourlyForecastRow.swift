@@ -57,6 +57,8 @@ private struct HourText: View {
             Text(.hourlyForecastNow)
         } else {
             Text(date, format: .hour(in: timeZone))
+                // Text replaces the format's time zone with the environment's, so the city's zone is set there too.
+                .environment(\.timeZone, timeZone)
         }
     }
 }
