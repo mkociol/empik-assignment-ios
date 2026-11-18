@@ -22,6 +22,7 @@ struct CitySearchClientLiveTests {
                 id: 1_880_252,
                 name: "Singapore",
                 region: nil,
+                country: "Singapur",
                 coordinates: Coordinates(latitude: 1.28967, longitude: 103.85007)
             )
         ])

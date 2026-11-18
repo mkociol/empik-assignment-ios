@@ -4,6 +4,7 @@ extension SearchHistoryEntry {
             cityID: city.id,
             name: city.name,
             region: city.region,
+            country: city.country,
             latitude: city.coordinates.latitude,
             longitude: city.coordinates.longitude,
             position: position
@@ -15,6 +16,7 @@ extension SearchHistoryEntry {
             id: cityID,
             name: name,
             region: region,
+            country: country,
             coordinates: Coordinates(latitude: latitude, longitude: longitude)
         )
     }

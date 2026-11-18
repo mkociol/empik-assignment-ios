@@ -5,6 +5,7 @@ extension GeocodingResponseDTO {
                 id: result.id,
                 name: result.name,
                 region: result.admin1,
+                country: result.country,
                 coordinates: Coordinates(latitude: result.latitude, longitude: result.longitude)
             )
         }

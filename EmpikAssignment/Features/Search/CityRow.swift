@@ -6,13 +6,18 @@ struct CityRow: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(verbatim: city.name)
-            if let region = city.region {
-                Text(verbatim: region)
+            if let location {
+                Text(verbatim: location)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
         }
         .accessibilityElement(children: .combine)
+    }
+
+    private var location: String? {
+        let parts = [city.region, city.country].compactMap(\.self)
+        return parts.isEmpty ? nil : parts.joined(separator: ", ")
     }
 }
 

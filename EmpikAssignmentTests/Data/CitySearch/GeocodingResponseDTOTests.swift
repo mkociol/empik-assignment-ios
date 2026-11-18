@@ -11,12 +11,14 @@ struct GeocodingResponseDTOTests {
                 id: 3_093_133,
                 name: "Łódź",
                 region: "Województwo łódzkie",
+                country: "Polska",
                 coordinates: Coordinates(latitude: 51.77058, longitude: 19.47395)
             ),
             City(
                 id: 3_093_132,
                 name: "Łódź",
                 region: "województwo wielkopolskie",
+                country: "Polska",
                 coordinates: Coordinates(latitude: 52.2545, longitude: 16.74231)
             )
         ])
@@ -30,6 +32,7 @@ struct GeocodingResponseDTOTests {
                 id: 1_880_252,
                 name: "Singapore",
                 region: nil,
+                country: "Singapur",
                 coordinates: Coordinates(latitude: 1.28967, longitude: 103.85007)
             )
         ])

@@ -24,6 +24,7 @@ struct SearchHistoryTests {
             id: City.krakow.id,
             name: "Krakow",
             region: "Lesser Poland",
+            country: "Poland",
             coordinates: City.krakow.coordinates
         )
 

@@ -4,4 +4,5 @@ nonisolated struct GeocodingResultDTO: Decodable {
     let latitude: Double
     let longitude: Double
     let admin1: String?
+    let country: String?
 }
