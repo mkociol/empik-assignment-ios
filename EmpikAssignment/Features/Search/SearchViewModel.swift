@@ -3,6 +3,7 @@ import Observation
 @Observable
 final class SearchViewModel {
     enum State: Equatable {
+        case loadingHistory
         case history
         case invalidInput(CityNameValidationError)
         case loading
@@ -12,7 +13,7 @@ final class SearchViewModel {
     }
 
     private var query = ""
-    private(set) var state: State = .history
+    private(set) var state: State = .loadingHistory
     private(set) var history = SearchHistory()
 
     var canClearHistory: Bool {
@@ -40,6 +41,9 @@ final class SearchViewModel {
     func loadHistory() async {
         if let storedHistory = try? await searchHistoryRepository.load() {
             history = storedHistory
+        }
+        if state == .loadingHistory {
+            state = .history
         }
     }
 

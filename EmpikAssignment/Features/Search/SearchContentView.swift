@@ -20,7 +20,7 @@ struct SearchContentView: View {
                 }
             case let .results(cities):
                 SearchResultsSection(cities: cities)
-            case .invalidInput, .loading, .noResults, .failed:
+            case .loadingHistory, .invalidInput, .loading, .noResults, .failed:
                 EmptyView()
             }
         }
@@ -46,6 +46,8 @@ private struct SearchStateOverlay: View {
 
     var body: some View {
         switch state {
+        case .loadingHistory:
+            EmptyView()
         case .history:
             if isHistoryEmpty {
                 SearchPromptView()
@@ -82,6 +84,10 @@ private struct SearchContentPreview: View {
             )
         }
     }
+}
+
+#Preview("Loading history") {
+    SearchContentPreview(state: .loadingHistory, history: SearchHistory())
 }
 
 #Preview("History") {

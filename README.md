@@ -155,7 +155,7 @@ never reference it.
 
 ## Testing
 
-77 unit tests written with Swift Testing:
+80 unit tests written with Swift Testing:
 
 - **Domain**: name validation (parameterized), history rules (order, duplicates, removal).
 - **OpenMeteoAPI and Data**: request URLs, HTTP error mapping, DTO → domain mapping, live clients. All test data

@@ -1,8 +1,15 @@
+import Foundation
 import Testing
 @testable import EmpikAssignment
 
 struct SearchViewModelTests {
     // MARK: - History
+
+    @Test func historyIsLoadingBeforeItIsLoaded() {
+        let viewModel = makeViewModel()
+
+        #expect(viewModel.state == .loadingHistory)
+    }
 
     @Test func appearingLoadsHistory() async {
         let storedHistory = SearchHistory(cities: [.krakow, .lodz])
@@ -10,7 +17,29 @@ struct SearchViewModelTests {
 
         await viewModel.loadHistory()
 
+        #expect(viewModel.state == .history)
         #expect(viewModel.history == storedHistory)
+    }
+
+    @Test func failedHistoryLoadShowsEmptyHistory() async {
+        let viewModel = makeViewModel(loadHistory: { throw CocoaError(.fileReadCorruptFile) })
+
+        await viewModel.loadHistory()
+
+        #expect(viewModel.state == .history)
+        #expect(viewModel.history.cities.isEmpty)
+    }
+
+    @Test func historyLoadedAfterTypingKeepsSearchResults() async {
+        let viewModel = makeViewModel(
+            searchCities: { _ in [.krakow] },
+            loadHistory: { SearchHistory(cities: [.lodz]) }
+        )
+        await viewModel.queryChanged("Kraków")
+
+        await viewModel.loadHistory()
+
+        #expect(viewModel.state == .results([.krakow]))
     }
 
     @Test func selectingCityPutsItFirstInHistoryAndSavesIt() async {
@@ -80,12 +109,13 @@ struct SearchViewModelTests {
     @Test(arguments: ["", "K"])
     func shortQueryShowsHistoryWithoutSearching(query: String) async {
         let searchedNames = CallRecorder<String>()
-        let viewModel = makeViewModel(searchCities: { await searchedNames.record($0); return [] })
+        let viewModel = makeViewModel(searchCities: { await searchedNames.record($0); return [.krakow] })
+        await viewModel.queryChanged("Kraków")
 
         await viewModel.queryChanged(query)
 
         #expect(viewModel.state == .history)
-        #expect(await searchedNames.values.isEmpty)
+        #expect(await searchedNames.values == ["Kraków"])
     }
 
     @Test func invalidQueryShowsValidationErrorWithoutSearching() async {
