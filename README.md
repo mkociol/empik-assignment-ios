@@ -76,7 +76,7 @@ passes values on as parameters or closures. The top-level folders are ready to b
 (`CitySearchClient.live(…)`). [`CompositionRoot`](EmpikAssignment/App/CompositionRoot.swift) is the only place that
 builds them. Tests and previews pass their own closures, so no mocking framework is needed.
 
-**ViewModels** are `@Observable` and keep one state enum. Every change goes through a method, one per user action:
+**ViewModels** are `@Observable` and keep one state enum. Every change goes through a method:
 
 ```swift
 enum State { case loading, loaded(Forecast), failed(RemoteDataFailure) }
