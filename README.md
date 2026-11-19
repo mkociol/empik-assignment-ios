@@ -136,9 +136,10 @@ other.
 - **Offline is a state, not a banner.** It comes from `URLError` codes mapped in the HTTP client, so no separate
   network monitor is needed. The app never retries on its own: every request comes from typing, "Try again" or
   picking a city. History stays available offline.
-- **The server is the source of values.** Requests ask for the user's language and preferred temperature unit, read
-  at request time, so the app doesn't convert anything. The mapper reads units from the response instead of
-  assuming them.
+- **The server is the source of values.** Requests ask for the app's language and the user's preferred temperature
+  unit, read at request time, so normally nothing is converted. The mapper reads units from the response instead of
+  assuming them; if the temperature setting changes after a request, `Measurement` formatting converts the value
+  on display.
 - **One forecast request per screen.** Hours are requested from the current hour and shown in the city's time zone,
   not the device's.
 - **SwiftData stays out of views.** All store work runs in a `@ModelActor`. Saving replaces the whole list in one
