@@ -35,28 +35,28 @@ struct SearchView: View {
             selectedCity: $selectedCity
         )
         .navigationTitle(Text(.searchTitle))
-        .task { await viewModel.send(.appeared) }
-        .task(id: searchText) { await viewModel.send(.queryChanged(searchText)) }
+        .task { await viewModel.loadHistory() }
+        .task(id: searchText) { await viewModel.queryChanged(searchText) }
         .onChange(of: selectedCity) { _, city in citySelected(city) }
     }
 
     private func citySelected(_ city: City?) {
         guard let city else { return }
-        Task { await viewModel.send(.citySelected(city)) }
+        Task { await viewModel.citySelected(city) }
     }
 
     private func retry() {
-        Task { await viewModel.send(.retryTapped) }
+        Task { await viewModel.retrySearch() }
     }
 
     private func deleteFromHistory(_ city: City) {
         onHistoryCityDeleted(city)
-        Task { await viewModel.send(.historyCityDeleted(city)) }
+        Task { await viewModel.removeFromHistory(city) }
     }
 
     private func clearHistory() {
         onHistoryCleared()
-        Task { await viewModel.send(.clearHistoryConfirmed) }
+        Task { await viewModel.clearHistory() }
     }
 }
 

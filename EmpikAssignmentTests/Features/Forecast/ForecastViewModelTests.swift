@@ -37,7 +37,7 @@ struct ForecastViewModelTests {
             return krakowForecast
         })
 
-        await viewModel.send(.appeared)
+        await viewModel.loadForecastIfNeeded()
 
         #expect(viewModel.state == .loaded(krakowForecast))
         #expect(await requestedCoordinates.values == [City.krakow.coordinates])
@@ -46,7 +46,7 @@ struct ForecastViewModelTests {
     @Test func missingConnectionShowsOffline() async {
         let viewModel = makeViewModel(fetchForecast: { _ in throw RemoteDataError.offline })
 
-        await viewModel.send(.appeared)
+        await viewModel.loadForecastIfNeeded()
 
         #expect(viewModel.state == .failed(.offline))
     }
@@ -55,7 +55,7 @@ struct ForecastViewModelTests {
         let reason = "Latitude must be in range of -90 to 90°. Given: 200.0."
         let viewModel = makeViewModel(fetchForecast: { _ in throw RemoteDataError.server(reason: reason) })
 
-        await viewModel.send(.appeared)
+        await viewModel.loadForecastIfNeeded()
 
         #expect(viewModel.state == .failed(.error(reason: reason)))
     }
@@ -63,7 +63,7 @@ struct ForecastViewModelTests {
     @Test func invalidResponseShowsErrorWithoutReason() async {
         let viewModel = makeViewModel(fetchForecast: { _ in throw RemoteDataError.invalidResponse })
 
-        await viewModel.send(.appeared)
+        await viewModel.loadForecastIfNeeded()
 
         #expect(viewModel.state == .failed(.error(reason: nil)))
     }
@@ -75,9 +75,9 @@ struct ForecastViewModelTests {
             guard await requestedCoordinates.values.count > 1 else { throw RemoteDataError.offline }
             return krakowForecast
         })
-        await viewModel.send(.appeared)
+        await viewModel.loadForecastIfNeeded()
 
-        await viewModel.send(.retryTapped)
+        await viewModel.retry()
 
         #expect(viewModel.state == .loaded(krakowForecast))
     }
@@ -88,9 +88,9 @@ struct ForecastViewModelTests {
             await requestedCoordinates.record(coordinates)
             return krakowForecast
         })
-        await viewModel.send(.appeared)
+        await viewModel.loadForecastIfNeeded()
 
-        await viewModel.send(.appeared)
+        await viewModel.loadForecastIfNeeded()
 
         #expect(await requestedCoordinates.values.count == 1)
     }
@@ -102,10 +102,10 @@ struct ForecastViewModelTests {
             guard await requestedCoordinates.values.count > 1 else { throw CancellationError() }
             return krakowForecast
         })
-        await viewModel.send(.appeared)
+        await viewModel.loadForecastIfNeeded()
         #expect(viewModel.state == .loading)
 
-        await viewModel.send(.appeared)
+        await viewModel.loadForecastIfNeeded()
 
         #expect(viewModel.state == .loaded(krakowForecast))
     }

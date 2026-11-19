@@ -14,11 +14,11 @@ struct ForecastView: View {
                 .animatesChanges(of: viewModel.state)
         }
         .navigationTitle(viewModel.city.name)
-        .task { await viewModel.send(.appeared) }
+        .task { await viewModel.loadForecastIfNeeded() }
     }
 
     private func retry() {
-        Task { await viewModel.send(.retryTapped) }
+        Task { await viewModel.retry() }
     }
 }
 

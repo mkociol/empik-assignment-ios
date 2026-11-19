@@ -11,15 +11,6 @@ final class SearchViewModel {
         case failed(RemoteDataFailure)
     }
 
-    enum Action {
-        case appeared
-        case queryChanged(String)
-        case retryTapped
-        case citySelected(City)
-        case historyCityDeleted(City)
-        case clearHistoryConfirmed
-    }
-
     private var query = ""
     private(set) var state: State = .history
     private(set) var history = SearchHistory()
@@ -45,27 +36,14 @@ final class SearchViewModel {
         self.sleep = sleep
     }
 
-    func send(_ action: Action) async {
-        switch action {
-        case .appeared:
-            await loadHistory()
-        case let .queryChanged(text):
-            await changeQuery(to: text)
-        case .retryTapped:
-            await search(for: query, after: .zero)
-        case let .citySelected(city):
-            history.add(city)
-            await saveHistory()
-        case let .historyCityDeleted(city):
-            history.remove(city)
-            await saveHistory()
-        case .clearHistoryConfirmed:
-            history.removeAll()
-            await saveHistory()
+    /// History is optional: the repository logs its failures and the search keeps working without it.
+    func loadHistory() async {
+        if let storedHistory = try? await searchHistoryRepository.load() {
+            history = storedHistory
         }
     }
 
-    private func changeQuery(to text: String) async {
+    func queryChanged(_ text: String) async {
         // The search field sends its text again when the list reappears; that must not repeat the search.
         guard text != query else { return }
         query = text
@@ -85,6 +63,25 @@ final class SearchViewModel {
         await search(for: text, after: debounceDuration)
     }
 
+    func retrySearch() async {
+        await search(for: query, after: .zero)
+    }
+
+    func citySelected(_ city: City) async {
+        history.add(city)
+        await saveHistory()
+    }
+
+    func removeFromHistory(_ city: City) async {
+        history.remove(city)
+        await saveHistory()
+    }
+
+    func clearHistory() async {
+        history.removeAll()
+        await saveHistory()
+    }
+
     private func search(for cityName: String, after delay: Duration) async {
         do {
             try await sleep(delay)
@@ -97,13 +94,6 @@ final class SearchViewModel {
         } catch {
             guard !Task.isCancelled else { return }
             state = .failed(RemoteDataFailure(error))
-        }
-    }
-
-    /// History is optional: the repository logs its failures and the search keeps working without it.
-    private func loadHistory() async {
-        if let storedHistory = try? await searchHistoryRepository.load() {
-            history = storedHistory
         }
     }
 

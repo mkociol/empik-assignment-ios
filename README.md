@@ -76,16 +76,18 @@ passes values on as parameters or closures. The top-level folders are ready to b
 (`CitySearchClient.live(…)`). [`CompositionRoot`](EmpikAssignment/App/CompositionRoot.swift) is the only place that
 builds them. Tests and previews pass their own closures, so no mocking framework is needed.
 
-**ViewModels** are `@Observable` and keep one state enum. Every change goes through an action handled in one place:
+**ViewModels** are `@Observable` and keep one state enum. Every change goes through a method, one per user action:
 
 ```swift
 enum State { case loading, loaded(Forecast), failed(RemoteDataFailure) }
-enum Action { case appeared, retryTapped }
-func send(_ action: Action) async
+func loadForecastIfNeeded() async
+func retry() async
 ```
 
-Views only render state and forward actions. The view owns task lifetimes: `.task(id: searchText)` cancels the
-previous search on every keystroke, which is the whole debounce mechanism. ViewModels store no `Task`s.
+Views only render state and call these methods.
+
+The view owns task lifetimes: `.task(id: searchText)` cancels the previous search on every keystroke, which is the
+whole debounce mechanism. ViewModels store no `Task`s.
 
 ### Data flow: searching for a city
 
@@ -98,7 +100,7 @@ sequenceDiagram
     participant CitySearchClient as CitySearchClient.live (Data)
     participant HTTPClient as OpenMeteoHTTPClient (OpenMeteoAPI)
     User->>SearchView: types "Kraków"
-    SearchView->>SearchViewModel: .task(id:) → send(.queryChanged)
+    SearchView->>SearchViewModel: .task(id:) → queryChanged(_:)
     SearchViewModel->>CityNameValidator: validate("Kraków")
     CityNameValidator-->>SearchViewModel: valid
     Note over SearchViewModel: waits 300 ms (cancelled by the next keystroke)
@@ -124,7 +126,7 @@ Errors are translated at each boundary, so no layer sees another layer's error t
 
 Navigation is one `NavigationSplitView`: search and history on the left, the forecast on the right. It collapses
 into a stack on iPhone and adapts to iPad multitasking and resizing. The selected city and the search field text
-live in [`RootViewModel`](EmpikAssignment/App/RootViewModel.swift) and change only through its actions; feature
+live in [`RootViewModel`](EmpikAssignment/App/RootViewModel.swift) and change only through its methods; feature
 screens never reference it.
 
 ## Key decisions
@@ -161,7 +163,7 @@ screens never reference it.
   comes from recorded real API responses; deliberate edits are visible in the test body. No test calls a real
   server.
 - **SwiftData repository**: real stores, in memory and on disk for the relaunch test.
-- **ViewModels**: state transitions for every action, including cancellation of an outdated search, with
+- **ViewModels**: state transitions for every method, including cancellation of an outdated search, with
   dependencies built from closures.
 - **App**: configuration loading and root navigation rules.
 

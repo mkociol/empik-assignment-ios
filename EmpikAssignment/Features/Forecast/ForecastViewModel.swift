@@ -8,11 +8,6 @@ final class ForecastViewModel {
         case failed(RemoteDataFailure)
     }
 
-    enum Action {
-        case appeared
-        case retryTapped
-    }
-
     let city: City
     private(set) var state: State = .loading
 
@@ -23,18 +18,17 @@ final class ForecastViewModel {
         self.forecastClient = forecastClient
     }
 
-    func send(_ action: Action) async {
-        switch action {
-        case .appeared:
-            guard state == .loading else { return }
-            await loadForecast()
-        case .retryTapped:
-            state = .loading
-            await loadForecast()
-        }
+    func loadForecastIfNeeded() async {
+        guard state == .loading else { return }
+        await fetchForecast()
     }
 
-    private func loadForecast() async {
+    func retry() async {
+        state = .loading
+        await fetchForecast()
+    }
+
+    private func fetchForecast() async {
         do {
             let forecast = try await forecastClient.fetchForecast(city.coordinates)
             guard !Task.isCancelled else { return }

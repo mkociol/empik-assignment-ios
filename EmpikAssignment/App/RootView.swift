@@ -16,8 +16,8 @@ struct RootView: View {
                 viewModel: compositionRoot.makeSearchViewModel(),
                 searchText: viewModel.searchText,
                 selectedCity: selectedCityBinding,
-                onHistoryCityDeleted: { viewModel.send(.historyCityDeleted($0)) },
-                onHistoryCleared: { viewModel.send(.historyCleared) }
+                onHistoryCityDeleted: { viewModel.cityRemovedFromHistory($0) },
+                onHistoryCleared: { viewModel.historyCleared() }
             )
         } detail: {
             if let selectedCity = viewModel.selectedCity {
@@ -32,11 +32,11 @@ struct RootView: View {
     }
 
     private var selectedCityBinding: Binding<City?> {
-        Binding(get: { viewModel.selectedCity }, set: { viewModel.send(.selectionChanged($0)) })
+        Binding(get: { viewModel.selectedCity }, set: { viewModel.select($0) })
     }
 
     private var searchTextBinding: Binding<String> {
-        Binding(get: { viewModel.searchText }, set: { viewModel.send(.searchTextChanged($0)) })
+        Binding(get: { viewModel.searchText }, set: { viewModel.updateSearchText($0) })
     }
 }
 

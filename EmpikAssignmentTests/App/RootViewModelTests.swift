@@ -4,27 +4,27 @@ import Testing
 struct RootViewModelTests {
     @Test func deletingSelectedCityFromHistoryClearsSelection() {
         let viewModel = RootViewModel()
-        viewModel.send(.selectionChanged(.krakow))
+        viewModel.select(.krakow)
 
-        viewModel.send(.historyCityDeleted(.krakow))
+        viewModel.cityRemovedFromHistory(.krakow)
 
         #expect(viewModel.selectedCity == nil)
     }
 
     @Test func deletingAnotherCityFromHistoryKeepsSelection() {
         let viewModel = RootViewModel()
-        viewModel.send(.selectionChanged(.krakow))
+        viewModel.select(.krakow)
 
-        viewModel.send(.historyCityDeleted(.lodz))
+        viewModel.cityRemovedFromHistory(.lodz)
 
         #expect(viewModel.selectedCity == .krakow)
     }
 
     @Test func clearingHistoryClearsSelection() {
         let viewModel = RootViewModel()
-        viewModel.send(.selectionChanged(.krakow))
+        viewModel.select(.krakow)
 
-        viewModel.send(.historyCleared)
+        viewModel.historyCleared()
 
         #expect(viewModel.selectedCity == nil)
     }
@@ -32,7 +32,7 @@ struct RootViewModelTests {
     @Test func changingSearchTextStoresIt() {
         let viewModel = RootViewModel()
 
-        viewModel.send(.searchTextChanged("Kraków"))
+        viewModel.updateSearchText("Kraków")
 
         #expect(viewModel.searchText == "Kraków")
     }
@@ -40,16 +40,16 @@ struct RootViewModelTests {
     @Test func changingSelectionStoresCity() {
         let viewModel = RootViewModel()
 
-        viewModel.send(.selectionChanged(.krakow))
+        viewModel.select(.krakow)
 
         #expect(viewModel.selectedCity == .krakow)
     }
 
     @Test func clearingSelectionRemovesCity() {
         let viewModel = RootViewModel()
-        viewModel.send(.selectionChanged(.krakow))
+        viewModel.select(.krakow)
 
-        viewModel.send(.selectionChanged(nil))
+        viewModel.select(nil)
 
         #expect(viewModel.selectedCity == nil)
     }
