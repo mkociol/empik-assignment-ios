@@ -132,8 +132,7 @@ never reference it.
 ## Key decisions
 
 - **Validation never changes what you typed.** Nothing is trimmed or corrected silently. An invalid name shows why
-  it is invalid and sends no request. A name that is just not finished yet ("Nowy ", "Bielsko-") shows no error and
-  waits for more input.
+  it is invalid and sends no request.
 - **Offline is a state, not a banner.** It comes from `URLError` codes mapped in the HTTP client, so no separate
   network monitor is needed. The app never retries on its own: every request comes from typing, "Try again" or
   picking a city. History stays available offline.
@@ -156,7 +155,7 @@ never reference it.
 
 ## Testing
 
-79 unit tests written with Swift Testing:
+77 unit tests written with Swift Testing:
 
 - **Domain**: name validation (parameterized), history rules (order, duplicates, removal).
 - **OpenMeteoAPI and Data**: request URLs, HTTP error mapping, DTO → domain mapping, live clients. All test data

@@ -10,20 +10,17 @@ struct CityNameValidatorTests {
         "Łódź",
         "Zürich",
         "São Paulo",
-        "Москва"
+        "Москва",
+        "Nowy ",
+        "Bielsko-"
     ])
     func acceptsValidCityName(_ cityName: String) {
-        #expect(CityNameValidator.validate(cityName) == .valid)
-    }
-
-    @Test(arguments: ["", "Nowy ", "Bielsko-"])
-    func treatsUnfinishedCityNameAsIncomplete(_ cityName: String) {
-        #expect(CityNameValidator.validate(cityName) == .incomplete)
+        #expect(throws: Never.self) { try CityNameValidator.validate(cityName) }
     }
 
     @Test(arguments: ["Kraków2", "3city", "-Kraków2"])
     func rejectsCityNameWithDigits(_ cityName: String) {
-        #expect(CityNameValidator.validate(cityName) == .invalid(.containsDigits))
+        #expect(throws: CityNameValidationError.containsDigits) { try CityNameValidator.validate(cityName) }
     }
 
     @Test(arguments: [
@@ -33,16 +30,16 @@ struct CityNameValidatorTests {
         "Kraków🙂",
     ])
     func rejectsCityNameWithSpecialCharacters(_ cityName: String) {
-        #expect(CityNameValidator.validate(cityName) == .invalid(.containsSpecialCharacters))
+        #expect(throws: CityNameValidationError.containsSpecialCharacters) { try CityNameValidator.validate(cityName) }
     }
 
     @Test(arguments: [" Kraków", "-Kraków", " ", "-"])
     func rejectsCityNameStartingWithSpaceOrHyphen(_ cityName: String) {
-        #expect(CityNameValidator.validate(cityName) == .invalid(.startsWithSpaceOrHyphen))
+        #expect(throws: CityNameValidationError.startsWithSpaceOrHyphen) { try CityNameValidator.validate(cityName) }
     }
 
     @Test(arguments: ["Bielsko--Biała", "Bielsko -Biała", "Bielsko- Biała"])
     func rejectsCityNameWithConsecutiveSpacesOrHyphens(_ cityName: String) {
-        #expect(CityNameValidator.validate(cityName) == .invalid(.consecutiveSpacesOrHyphens))
+        #expect(throws: CityNameValidationError.consecutiveSpacesOrHyphens) { try CityNameValidator.validate(cityName) }
     }
 }

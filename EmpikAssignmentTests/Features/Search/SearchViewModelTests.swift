@@ -98,18 +98,17 @@ struct SearchViewModelTests {
         #expect(await searchedNames.values.isEmpty)
     }
 
-    @Test func incompleteQueryKeepsCurrentStateWithoutSearching() async {
+    @Test func queryEndingWithSpaceOrHyphenIsSearchedAsTyped() async {
         let searchedNames = CallRecorder<String>()
         let viewModel = makeViewModel(searchCities: { name in
             await searchedNames.record(name)
             return [.krakow]
         })
-        await viewModel.queryChanged("Nowy")
 
         await viewModel.queryChanged("Nowy ")
 
         #expect(viewModel.state == .results([.krakow]))
-        #expect(await searchedNames.values == ["Nowy"])
+        #expect(await searchedNames.values == ["Nowy "])
     }
 
     @Test func unchangedQueryKeepsResultsWithoutSearchingAgain() async {

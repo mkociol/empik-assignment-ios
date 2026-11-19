@@ -48,16 +48,14 @@ final class SearchViewModel {
         guard text != query else { return }
         query = text
 
-        let validationResult = CityNameValidator.validate(text)
-        if case let .invalid(error) = validationResult {
+        do {
+            try CityNameValidator.validate(text)
+        } catch {
             state = .invalidInput(error)
             return
         }
         guard text.count >= CitySearchClient.minimumCityNameLength else {
             state = .history
-            return
-        }
-        guard validationResult == .valid else {
             return
         }
         await search(for: text, after: debounceDuration)
