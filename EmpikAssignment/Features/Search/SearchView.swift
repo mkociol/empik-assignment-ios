@@ -1,17 +1,16 @@
 import SwiftUI
 
 struct SearchView: View {
-    let searchText: String
     let onHistoryCityDeleted: (City) -> Void
     let onHistoryCleared: () -> Void
 
     @Binding var selectedCity: City?
 
     @State private var viewModel: SearchViewModel
+    @State private var searchText = ""
 
     init(
         viewModel: SearchViewModel,
-        searchText: String,
         selectedCity: Binding<City?>,
         onHistoryCityDeleted: @escaping (City) -> Void,
         onHistoryCleared: @escaping () -> Void
@@ -19,7 +18,6 @@ struct SearchView: View {
         _viewModel = State(initialValue: viewModel)
         _selectedCity = selectedCity
 
-        self.searchText = searchText
         self.onHistoryCityDeleted = onHistoryCityDeleted
         self.onHistoryCleared = onHistoryCleared
     }
@@ -35,6 +33,7 @@ struct SearchView: View {
             selectedCity: $selectedCity
         )
         .navigationTitle(Text(.searchTitle))
+        .searchable(text: $searchText, prompt: Text(.searchFieldPrompt))
         .task { await viewModel.loadHistory() }
         .task(id: searchText) { await viewModel.queryChanged(searchText) }
         .onChange(of: selectedCity) { _, city in citySelected(city) }
@@ -62,13 +61,11 @@ struct SearchView: View {
 
 private struct SearchViewPreview: View {
     @State private var selectedCity: City?
-    @State private var searchText = ""
 
     var body: some View {
         NavigationSplitView {
             SearchView(
                 viewModel: .preview(),
-                searchText: searchText,
                 selectedCity: $selectedCity,
                 onHistoryCityDeleted: { _ in },
                 onHistoryCleared: {}
@@ -76,7 +73,6 @@ private struct SearchViewPreview: View {
         } detail: {
             Text(verbatim: selectedCity?.name ?? "")
         }
-        .searchable(text: $searchText, prompt: Text(.searchFieldPrompt))
     }
 }
 

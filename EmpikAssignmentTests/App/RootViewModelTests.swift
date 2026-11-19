@@ -29,14 +29,6 @@ struct RootViewModelTests {
         #expect(viewModel.selectedCity == nil)
     }
 
-    @Test func changingSearchTextStoresIt() {
-        let viewModel = RootViewModel()
-
-        viewModel.updateSearchText("Kraków")
-
-        #expect(viewModel.searchText == "Kraków")
-    }
-
     @Test func changingSelectionStoresCity() {
         let viewModel = RootViewModel()
 

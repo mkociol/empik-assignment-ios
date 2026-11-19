@@ -3,11 +3,6 @@ import Observation
 @Observable
 final class RootViewModel {
     private(set) var selectedCity: City?
-    private(set) var searchText = ""
-
-    func updateSearchText(_ text: String) {
-        searchText = text
-    }
 
     func select(_ city: City?) {
         selectedCity = city

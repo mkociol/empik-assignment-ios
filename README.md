@@ -125,9 +125,9 @@ Errors are translated at each boundary, so no layer sees another layer's error t
 ### Navigation
 
 Navigation is one `NavigationSplitView`: search and history on the left, the forecast on the right. It collapses
-into a stack on iPhone and adapts to iPad multitasking and resizing. The selected city and the search field text
-live in [`RootViewModel`](EmpikAssignment/App/RootViewModel.swift) and change only through its methods; feature
-screens never reference it.
+into a stack on iPhone and adapts to iPad multitasking and resizing. The selected city lives in
+[`RootViewModel`](EmpikAssignment/App/RootViewModel.swift) and changes only through its methods; feature screens
+never reference it.
 
 ## Key decisions
 

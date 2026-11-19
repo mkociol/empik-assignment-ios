@@ -14,7 +14,6 @@ struct RootView: View {
         NavigationSplitView {
             SearchView(
                 viewModel: compositionRoot.makeSearchViewModel(),
-                searchText: viewModel.searchText,
                 selectedCity: selectedCityBinding,
                 onHistoryCityDeleted: { viewModel.cityRemovedFromHistory($0) },
                 onHistoryCleared: { viewModel.historyCleared() }
@@ -27,16 +26,10 @@ struct RootView: View {
                 NoCitySelectedView()
             }
         }
-        // On the split view, not on the sidebar: the search field belongs to the whole container and survives going back.
-        .searchable(text: searchTextBinding, prompt: Text(.searchFieldPrompt))
     }
 
     private var selectedCityBinding: Binding<City?> {
         Binding(get: { viewModel.selectedCity }, set: { viewModel.select($0) })
-    }
-
-    private var searchTextBinding: Binding<String> {
-        Binding(get: { viewModel.searchText }, set: { viewModel.updateSearchText($0) })
     }
 }
 
