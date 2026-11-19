@@ -199,3 +199,7 @@ These parts are intentionally kept simple for an app of this size. Each one has 
   type and then to SF Symbols.
 - **Unit tests only, no UI tests or CI.** The next step would be a CI workflow running the tests on iOS 17 and on the
   latest iOS.
+- **Formatting is run by hand.** The style lives in `.swiftformat` and `swiftformat .` is run before committing
+  (`brew install swiftformat`). A larger team could pin SwiftFormat in a small tools package
+  (`BuildTools/Package.swift`) and run it with `swift run`: nobody installs anything, everyone uses the same
+  version, and CI runs the same command with `--lint` to reject unformatted code.
